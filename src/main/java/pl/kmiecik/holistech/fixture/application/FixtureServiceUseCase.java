@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Service
@@ -65,13 +66,14 @@ public class FixtureServiceUseCase implements FixtureService {
 
     @Override
     public void sendEmail(Optional<Fixture> myFixture) {
-        int size = myFixture.get().getFixtureHistories().size();
-        String lastChangeOwner = myFixture.get().getFixtureHistories().get(size - 1).getChangeOwner();
-        String descriptionChange = myFixture.get().getFixtureHistories().get(size - 1).getDescriptionOfChange();
-        String message = String.format("Fixture %s was change to %s  by  %s  with description %s ", myFixture.get().getName(), myFixture.get().getStatusStrain(), lastChangeOwner, descriptionChange);
 
-        for (int i = 0; i < emailToArray.length; i++) {
-            gmailService.sendSimpleMessage(emailToArray[i], "Status was change", message);
+        if (myFixture.isPresent()) {
+            int size = myFixture.get().getFixtureHistories().size();
+            String lastChangeOwner = myFixture.get().getFixtureHistories().get(size - 1).getChangeOwner();
+            String descriptionChange = myFixture.get().getFixtureHistories().get(size - 1).getDescriptionOfChange();
+            String message = String.format("Fixture %s was change to %s  by  %s  with description %s ", myFixture.get().getName(), myFixture.get().getStatusStrain(), lastChangeOwner, descriptionChange);
+
+            IntStream.range(0, emailToArray.length).forEach(i -> gmailService.sendSimpleMessage(emailToArray[i], "Status was change", message));
         }
     }
 
