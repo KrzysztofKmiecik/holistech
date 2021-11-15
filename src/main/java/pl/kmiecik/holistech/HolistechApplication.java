@@ -20,9 +20,9 @@ class HolistechApplication {
         System.out.println("login "+propLogin);
     }
 
-    @Value("${proxyUser}")
+    @Value("${myproxy.login}")
     private String propLogin;
 
-    @Value("${proxyPassword}")
+    @Value("${myproxy.password}")
     private String propPass;
 }

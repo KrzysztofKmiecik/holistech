@@ -1,0 +1,59 @@
+{
+  "properties": [
+    {
+      "name": "fixture.service.usecase.email.sender",
+      "type": "java.lang.String",
+      "description": "Description for fixture-service-usecase.emailFrom.",
+      "sourceType": "pl.kmiecik.holistech.config.CustomFixturesProperties",
+      "defaultValue": "****@****"
+    },
+    {
+      "name": "fixture.service.usecase.email.password",
+      "type": "java.lang.String",
+      "description": "Description for fixture-service-usecase.emailFromPass.",
+      "sourceType": "pl.kmiecik.holistech.config.CustomFixturesProperties",
+      "defaultValue": "****"
+    },
+    {
+      "name": "fixture.service.usecase.email.receiver",
+      "type": "java.lang.String",
+      "description": "Description for fixture-service-usecase.emailTo.",
+      "sourceType": "pl.kmiecik.holistech.config.CustomFixturesProperties",
+      "defaultValue": "****@****"
+    },
+    {
+      "name": "fis.ip",
+      "type": "java.lang.String",
+      "description": "Description for fis.ip.",
+      "sourceType": "pl.kmiecik.holistech.config.CustomIpProperties",
+      "defaultValue": "10.235.241.235"
+    },
+    {
+      "name": "fis.port",
+      "type": "java.lang.String",
+      "description": "Description for fis.port.",
+      "sourceType": "pl.kmiecik.holistech.config.CustomIpProperties",
+      "defaultValue": 24431
+    },
+    {
+      "name": "spring.mail.send.receiver",
+      "type": "java.lang.String",
+      "description": "Description for spring.mail.sendTo.",
+      "sourceType": "pl.kmiecik.holistech.config.CustomMailProperties",
+      "defaultValue": "**@***"
+    },
+    {
+      "name": "myproxy.login",
+      "type": "java.lang.String",
+      "description": "Description for proxyUser.",
+      "sourceType": "pl.kmiecik.holistech.config.CustomProxyProperties",
+      "defaultValue": "*****"
+    },
+    {
+      "name": "myproxy.password",
+      "type": "java.lang.String",
+      "description": "Description for proxyPassword.",
+      "sourceType": "pl.kmiecik.holistech.config.CustomProxyProperties",
+      "defaultValue": "*****"
+    }
+  ] }
