@@ -19,7 +19,6 @@ class FixtureController {
 
     private final FixtureService service;
 
-
     @Autowired
     public FixtureController(FixtureService service) {
         this.service = service;
@@ -43,7 +42,7 @@ class FixtureController {
             fixture = fixtureById.get();
             fixtureHistoryList = fixture.getFixtureHistories();
         } else {
-            fixtureHistoryList = Collections.EMPTY_LIST;
+            fixtureHistoryList = Collections.emptyList();
             fixture = new Fixture();
         }
         model.addAttribute("fixtureName", fixture.getName());
@@ -61,6 +60,7 @@ class FixtureController {
 
     @PostMapping("/add-fixtureButton")
     public String addFixtureButton() {
+        //noinspection SpringMVCViewInspection
         return "redirect:/addFixture";
     }
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 class UserController {
 
-
+    @SuppressWarnings("SameReturnValue")
     @GetMapping("/login")
     public String login() {
         return "login";
