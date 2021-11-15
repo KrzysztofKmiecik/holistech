@@ -5,7 +5,7 @@ public enum Status {
     OK("PASS");
     private final String displayName;
 
-    private Status(String displayName) {
+    Status(String displayName) {
         this.displayName = displayName;
     }
 
