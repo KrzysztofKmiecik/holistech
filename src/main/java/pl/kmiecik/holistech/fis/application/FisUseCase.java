@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pl.kmiecik.holistech.fis.application.port.FisService;
+import pl.kmiecik.holistech.fis.application.port.IpClientService;
 import pl.kmiecik.holistech.fis.domain.FISVariantNotFoundExeption;
 import pl.kmiecik.holistech.fixture.domain.Fixture;
 
@@ -16,7 +17,9 @@ import pl.kmiecik.holistech.fixture.domain.Fixture;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FisUseCase implements FisService {
+class FisUseCase implements FisService {
+
+    private final IpClientService ipClientService;
 
     @Value("${fis.ip}")
     private String ip;
@@ -26,9 +29,7 @@ public class FisUseCase implements FisService {
 
     @Override
     public void sendAndReceiveIPMessage(final String msg, final String ip, final Integer port) {
-        final IpClient ipClient = new IpClient();
-        //  final String actual = ipClient.sendAndReceiveIPMessage("10.235.241.235", 24364, "HandleGETSTATIONLIST|");
-        final String receiveIPMessage = ipClient.sendAndReceiveIPMessage(ip, port, msg);
+        final String receiveIPMessage = ipClientService.sendAndReceiveIPMessage(ip, port, msg);
         if (receiveIPMessage.contains("FAIL")) {
             throw new FISVariantNotFoundExeption(receiveIPMessage);
         }
@@ -38,6 +39,10 @@ public class FisUseCase implements FisService {
 
     @Override
     public String createADDFIXTURE(final String processName, final String fixture, final String status) {
+
+        if(processName==null||fixture==null||status==null){
+            throw new IllegalArgumentException("Illegal argument");
+        }
         return "ADDFIXTURE|process=" + processName.trim().toUpperCase()
                 + "|fixture=" + fixture.trim().toUpperCase()
                 + "|status=" + status.trim().toUpperCase();

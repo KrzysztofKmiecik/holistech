@@ -13,7 +13,7 @@ import pl.kmiecik.holistech.email.application.port.GmailService;
  */
 
 @Service
-public class GmailUseCase implements GmailService {
+class GmailUseCase implements GmailService {
 
     private final JavaMailSender emailSender;
 

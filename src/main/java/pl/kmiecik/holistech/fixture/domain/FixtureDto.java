@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-
 public class FixtureDto {
 
     private Long id;

@@ -10,10 +10,9 @@ import pl.kmiecik.holistech.email.application.port.EmailService;
 import pl.kmiecik.m6_aop_mail_homework.email.application.port.EmailUseCase;
 import pl.kmiecik.m6_aop_mail_homework.film.application.port.FilmUseCase;
 import pl.kmiecik.m6_aop_mail_homework.film.domain.Film;
-*/
-/*
+
 @Aspect
-@Component*/
+@Component
 class SendEmailAspect {
    /* private final EmailService emailService;
     private final FilmUseCase filmService;
@@ -38,5 +37,6 @@ class SendEmailAspect {
         Film lastElement=filmService.getAllFilms().get(filmServiceSize-1);
         return "Film was  added : "+lastElement.toString();
 
-    }*/
+    }
 }
+*/
