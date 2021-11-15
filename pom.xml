@@ -15,8 +15,8 @@
     <description>holistech</description>
     <properties>
         <java.version>11</java.version>
-        <webjars.bootstrap.version>4.3.1</webjars.bootstrap.version>
-        <webjars.font.version>5.11.2</webjars.font.version>
+        <webjars.bootstrap.version>5.1.1</webjars.bootstrap.version>
+        <webjars.font.version>5.15.3</webjars.font.version>
         <assertj.core.version>3.21.0</assertj.core.version>
         <mockito.core.version>4.0.0</mockito.core.version>
     </properties>
