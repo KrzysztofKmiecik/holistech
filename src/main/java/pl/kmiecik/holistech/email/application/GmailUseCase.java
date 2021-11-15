@@ -23,12 +23,12 @@ class GmailUseCase implements GmailService {
         this.emailSender = emailSender;
     }
 
-    @Value("${fixture-service-usecase.emailFrom}")
-    private String fromEmail;
+    @Value("${fixture.service.usecase.sender}")
+    private String sender;
     @Override
     public void sendSimpleMessage(final String to, final String subject, final String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
+        message.setFrom(sender);
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
