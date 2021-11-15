@@ -1,12 +1,17 @@
 package pl.kmiecik.holistech.fis.application;
 
+import org.springframework.stereotype.Service;
+import pl.kmiecik.holistech.fis.application.port.IpClientService;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-class IpClient {
+@Service
+class IpClientUseCase implements IpClientService {
 
+    @Override
     public String sendAndReceiveIPMessage(String ipAdress, Integer ipPort, String message) {
         String str = "";
         try (

@@ -30,7 +30,7 @@ import java.util.stream.IntStream;
 @Setter
 @Getter
 @Transactional
-public class FixtureServiceUseCase implements FixtureService {
+class FixtureServiceUseCase implements FixtureService {
 
     private final FixtureRepository repository;
     private final FixtureHistoryRepository historyRepository;

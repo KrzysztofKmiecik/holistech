@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class FixtureController {
+class FixtureController {
 
     private final FixtureService service;
 
