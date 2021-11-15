@@ -36,7 +36,6 @@ public class FixtureController {
     @GetMapping("/fixture")
     //  @ResponseBody
     public String getFixtureById(@RequestParam Long id, Model model) {
-        List<Fixture> fixtures = service.findAllFixtures();
         List<FixtureHistory> fixtureHistoryList;
         Fixture fixture;
         Optional<Fixture> fixtureById = service.findFixtureById(id);
@@ -53,19 +52,18 @@ public class FixtureController {
         return "historyFixturesView";
     }
 
-
     //************
+    @GetMapping("/addFixture")
+    public String addFixtureGET(Model model) {
+        model.addAttribute("newFixture", new FixtureDto());
+        return "addFixtureView";
+    }
+
     @PostMapping("/add-fixtureButton")
     public String addFixtureButton() {
         return "redirect:/addFixture";
     }
 
-    @GetMapping("/addFixture")
-    public String addFixtureGET(Model model) {
-
-        model.addAttribute("newFixture", new FixtureDto());
-        return "addFixtureView";
-    }
 
     @PostMapping("/addFixture")
     public String addFixturePOST(@ModelAttribute Fixture fixture) {

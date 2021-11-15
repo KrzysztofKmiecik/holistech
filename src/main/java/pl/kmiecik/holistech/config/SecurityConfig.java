@@ -14,7 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationMgr) throws Exception {
@@ -30,15 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      /*  http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/fixtures/**").hasRole("TESTER")
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);*/
 
         http.authorizeRequests()
                 .antMatchers("/register", "/hello").permitAll()
