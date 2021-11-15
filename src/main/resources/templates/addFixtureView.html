@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>addFixtureView</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/5.11.2/css/v4-shims.min.css">
+</head>
+<body>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col">
+            <h1>Fixtures</h1>
+            <a th:align="right" th:href="@{/fixtures}">Fixture list</a>
+        </div>
+        <div class="col">
+            <a href="https://aptiv.com" target="_blank" title="https://aptiv.com">
+                <img src="#" th:src="@{/photos/delphi.png}" width="200" height="45" alt="aptiv" align="right"/>
+            </a>
+            <br>
+            <p th:align="right"><label> Gdańsk Poland kmk 1.0</label></p>
+        </div>
+        <div class="float-right">
+            <a th:href="@{/logout}" th:text="Logout" class="btn btn-outline-secondary btn-sm ml-3">Logout</a>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12 mx-auto">
+            <form th:action="@{/addFixture}" th:object="${newFixture}" method="post">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="FixtName">Select Fixture Name</label>
+                            <input type="text" id="FixtName" th:field="*{name}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="fisProcess">Select FIS Process</label>
+                            <select class="form-control" id="fisProcess" th:field="*{fisProcess}">
+                                <option th:each="fisProcess : ${T(pl.kmiecik.holistech.fixture.domain.FisProcess).values()}"
+                                        th:value="${fisProcess}" th:text="${fisProcess}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!--            <div class="form-group">
+                                <label for="body">Body</label>
+                                <textarea id="body" th:field="*{body}" class="form-control"></textarea>
+                            </div> -->
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+<script src="/webjars/popper.js/1.14.3/popper.min.js"></script>
+<script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
