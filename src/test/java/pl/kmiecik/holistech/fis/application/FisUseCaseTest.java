@@ -10,14 +10,14 @@ import pl.kmiecik.holistech.fis.domain.FISVariantNotFoundExeption;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 
 class FisUseCaseTest {
     FisService fisService;
     IpClientService ipClientService;
     @Test
-    @DisplayName("should Send And Receive IPMessage")
-    void shouldSendAndReceiveIPMessage() {
+    @DisplayName("should Throw When Get Fail From Fis for SendAndReceiveIPMessage")
+    void shouldThrowWhenGetFailFromFisforSendAndReceiveIPMessage() {
         //given
         ipClientService = Mockito.mock(IpClientService.class);
         fisService = new FisUseCase(ipClientService);
@@ -81,4 +81,6 @@ class FisUseCaseTest {
     void setUp() {
         fisService = new FisUseCase(ipClientService);
     }
+
+
 }
