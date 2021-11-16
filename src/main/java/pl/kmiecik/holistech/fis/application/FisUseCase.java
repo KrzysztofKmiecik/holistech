@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.kmiecik.holistech.config.CustomProperties;
 import pl.kmiecik.holistech.fis.application.port.FisService;
 import pl.kmiecik.holistech.fis.application.port.IpClientService;
-import pl.kmiecik.holistech.fis.domain.FISVariantNotFoundExeption;
+import pl.kmiecik.holistech.fis.domain.FISVariantNotFoundException;
 import pl.kmiecik.holistech.fixture.domain.Fixture;
 
 /**
@@ -14,6 +14,7 @@ import pl.kmiecik.holistech.fixture.domain.Fixture;
  * Server   IP : 10.235.241.235  Port : 24431
  * "ADDFIXTURE|proces=ICT|fixture=1|status=PASS"
  */
+@SuppressWarnings("SpellCheckingInspection")
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ class FisUseCase implements FisService {
     public void sendAndReceiveIPMessage(final String msg, final String ip, final Integer port) {
         final String receiveIPMessage = ipClientService.sendAndReceiveIPMessage(ip, port, msg);
         if (receiveIPMessage.contains("FAIL")) {
-            throw new FISVariantNotFoundExeption(receiveIPMessage);
+            throw new FISVariantNotFoundException(receiveIPMessage);
         }
         log.info("my message is = " + msg + "--->>> FIS response is = " + receiveIPMessage);
         System.out.println(msg + receiveIPMessage);

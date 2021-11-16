@@ -8,6 +8,7 @@ class HolistechApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("Test");
     }
 
 }

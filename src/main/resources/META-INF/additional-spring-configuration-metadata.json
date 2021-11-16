@@ -3,49 +3,49 @@
     {
       "name": "custom.emailsender",
       "type": "java.lang.String",
-      "description": "Description for fixture-service-usecase.emailFrom.",
+      "description": "Sender's email.",
       "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": "****@****"
     },
     {
       "name": "custom.emailpassword",
       "type": "java.lang.String",
-      "description": "Description for fixture-service-usecase.emailFromPass.",
+      "description": "Sender's password.",
       "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": "****"
     },
     {
       "name": "custom.emailreceiver",
       "type": "java.lang.String",
-      "description": "Description for fixture-service-usecase.emailTo.",
+      "description": "Receiver's email.",
       "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": "****@****"
     },
     {
       "name": "custom.fisip",
       "type": "java.lang.String",
-      "description": "Description for fis.ip.",
+      "description": "FIS id.",
       "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": "10.235.241.235"
     },
     {
       "name": "custom.fisport",
       "type": "java.lang.String",
-      "description": "Description for fis.port.",
+      "description": "FIS port.",
       "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": 24431
     },
     {
       "name": "custom.proxylogin",
       "type": "java.lang.String",
-      "description": "Description for proxyUser.",
+      "description": "Proxy login.",
       "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": "*****"
     },
     {
       "name": "custom.proxypassword",
       "type": "java.lang.String",
-      "description": "Description for proxyPassword.",
+      "description": "Proxy password.",
       "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": "*****"
     }

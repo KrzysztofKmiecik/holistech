@@ -15,13 +15,17 @@ import java.util.Properties;
  * https://www.baeldung.com/spring-email
  */
 
-
 @Configuration
 @EnableConfigurationProperties(CustomProperties.class)
+
 class GmailConfiguration {
 
+    private final CustomProperties customProperties;
+
     @Autowired
-    private CustomProperties customProperties;
+    public GmailConfiguration(CustomProperties customProperties) {
+        this.customProperties = customProperties;
+    }
 
     @Bean
     public JavaMailSender getJavaMailSender() {
