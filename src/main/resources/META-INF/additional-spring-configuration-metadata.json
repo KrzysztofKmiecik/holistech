@@ -1,59 +1,52 @@
 {
   "properties": [
     {
-      "name": "fixture.service.usecase.email.sender",
+      "name": "custom.emailsender",
       "type": "java.lang.String",
       "description": "Description for fixture-service-usecase.emailFrom.",
-      "sourceType": "pl.kmiecik.holistech.config.CustomFixturesProperties",
+      "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": "****@****"
     },
     {
-      "name": "fixture.service.usecase.email.password",
+      "name": "custom.emailpassword",
       "type": "java.lang.String",
       "description": "Description for fixture-service-usecase.emailFromPass.",
-      "sourceType": "pl.kmiecik.holistech.config.CustomFixturesProperties",
+      "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": "****"
     },
     {
-      "name": "fixture.service.usecase.email.receiver",
+      "name": "custom.emailreceiver",
       "type": "java.lang.String",
       "description": "Description for fixture-service-usecase.emailTo.",
-      "sourceType": "pl.kmiecik.holistech.config.CustomFixturesProperties",
+      "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": "****@****"
     },
     {
-      "name": "fis.ip",
+      "name": "custom.fisip",
       "type": "java.lang.String",
       "description": "Description for fis.ip.",
-      "sourceType": "pl.kmiecik.holistech.config.CustomIpProperties",
+      "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": "10.235.241.235"
     },
     {
-      "name": "fis.port",
+      "name": "custom.fisport",
       "type": "java.lang.String",
       "description": "Description for fis.port.",
-      "sourceType": "pl.kmiecik.holistech.config.CustomIpProperties",
+      "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": 24431
     },
     {
-      "name": "spring.mail.send.receiver",
-      "type": "java.lang.String",
-      "description": "Description for spring.mail.sendTo.",
-      "sourceType": "pl.kmiecik.holistech.config.CustomMailProperties",
-      "defaultValue": "**@***"
-    },
-    {
-      "name": "myproxy.login",
+      "name": "custom.proxylogin",
       "type": "java.lang.String",
       "description": "Description for proxyUser.",
-      "sourceType": "pl.kmiecik.holistech.config.CustomProxyProperties",
+      "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": "*****"
     },
     {
-      "name": "myproxy.password",
+      "name": "custom.proxypassword",
       "type": "java.lang.String",
       "description": "Description for proxyPassword.",
-      "sourceType": "pl.kmiecik.holistech.config.CustomProxyProperties",
+      "sourceType": "pl.kmiecik.holistech.config.CustomProperties",
       "defaultValue": "*****"
     }
   ] }

@@ -13,7 +13,7 @@ public interface FixtureService {
 
     Fixture setStrainStatus(String id, Status ok);
 
-    void sendEmail(Optional<Fixture> myFixture);
+    void sendEmail(Fixture myFixture);
 
     FixtureHistory getFixtureHistory(Fixture fixture, String descriptionOfChange, ModificationReason modificationReason);
 

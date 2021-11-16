@@ -1,11 +1,13 @@
 package pl.kmiecik.holistech.email.application;
 
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import pl.kmiecik.holistech.config.CustomProperties;
 
 import java.util.Properties;
 
@@ -15,13 +17,11 @@ import java.util.Properties;
 
 
 @Configuration
+@EnableConfigurationProperties(CustomProperties.class)
 class GmailConfiguration {
 
-    @Value("${fixture-service-usecase.emailFrom}")
-    private String emailFrom;
-
-    @Value("${fixture-service-usecase.emailFromPass}")
-    private String emailFromPass;
+    @Autowired
+    private CustomProperties customProperties;
 
     @Bean
     public JavaMailSender getJavaMailSender() {
@@ -29,8 +29,8 @@ class GmailConfiguration {
 
         mailSender.setHost("smtp.aptiv.com");
         mailSender.setPort(25);
-        mailSender.setUsername(emailFrom);
-        mailSender.setPassword(emailFromPass);
+        mailSender.setUsername(customProperties.getEmailsender());
+        mailSender.setPassword(customProperties.getEmailpassword());
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
