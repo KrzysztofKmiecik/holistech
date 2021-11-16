@@ -14,8 +14,16 @@
     <div class="row">
         <div class="col">
             <h1 th:text="${fixtureName}">Fixture History</h1>
-            <a th:align="right" th:href="@{/fixtures}">Fixture list</a>
+            <a th:align="right" th:href="@{/fixtures}" th:text="#{fixture.list}">Fixture list</a>
         </div>
+        <div class="col-4">
+            <a href="?lang=pl_PL" th:text="#{language.polish}"></a>|
+            <a href="?lang=en_GB" th:text="#{language.english}"></a>|
+            <a href="?lang=de_DE" th:text="#{language.german}"></a>|&nbsp;
+            <a href="?lang=ru_RU" th:text="#{language.russian}"></a>
+
+        </div>
+
         <div class="col">
             <a href="https://aptiv.com" target="_blank" title="https://aptiv.com">
                 <img src="#" th:src="@{/photos/delphi.png}" width="200" height="45" alt="aptiv" th:align="right"/>
@@ -24,7 +32,7 @@
         <p th:align="right"><label > Gdańsk Poland kmk 1.0</label></p>
         </div>
         <div class="float-right">
-            <a th:href="@{/logout}" th:text="Logout" class="btn btn-outline-secondary btn-sm ml-3">Logout</a>
+            <a th:href="@{/logout}" th:text="#{user.security.logout}" class="btn btn-outline-secondary btn-sm ml-3">Logout</a>
         </div>
     </div>
 
@@ -33,10 +41,10 @@
             <table class="table table-striped table-hover table-sm">
                 <thead>
                 <tr>
-                    <th>modification_date_time</th>
-                    <th>modification_reason</th>
-                    <th>change_owner</th>
-                    <th>description</th>
+                    <th th:text="#{history.date}">modification_date_time</th>
+                    <th th:text="#{history.reason}">modification_reason</th>
+                    <th th:text="#{history.owner}">change_owner</th>
+                    <th th:text="#{history.description}">description</th>
 
                 </tr>
                 </thead>
