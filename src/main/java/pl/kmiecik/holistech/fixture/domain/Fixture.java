@@ -34,11 +34,5 @@ public class Fixture {
     @OneToMany(mappedBy = "fixture",cascade = CascadeType.ALL)
     private List<FixtureHistory> fixtureHistories;
 
-    public void addHistory(FixtureHistory fixtureHistory){
-        fixtureHistories.add(fixtureHistory);
-        if(fixtureHistory.getFixture()!=this){
-            fixtureHistory.setFixture(this);
-        }
-    }
 
 }

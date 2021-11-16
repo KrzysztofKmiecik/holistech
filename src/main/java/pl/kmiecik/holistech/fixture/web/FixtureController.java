@@ -1,5 +1,6 @@
 package pl.kmiecik.holistech.fixture.web;
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.kmiecik.holistech.fixture.application.port.FixtureService;
 import pl.kmiecik.holistech.fixture.domain.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -67,7 +72,8 @@ class FixtureController {
 
 
     @PostMapping("/addFixture")
-    public String addFixturePOST(@ModelAttribute Fixture fixture) {
+    public String addFixturePOST(@Valid @ModelAttribute FixtureCommand command) {
+        Fixture fixture= command.toFixture();
         service.setMyDefaultStrainStatus(fixture);
         service.setMyExpiredStrainDate(fixture);
         FixtureHistory fixtureHistory = service.getFixtureHistory(fixture, "INIT", ModificationReason.CREATE);
@@ -89,10 +95,10 @@ class FixtureController {
     }
 
     @PostMapping("/editFixture")
-    public String editFixturePOST(@ModelAttribute Fixture fixture) {
+    public String editFixturePOST(@Valid @ModelAttribute FixtureCommand command) {
 
         FisProcess fisProcess;
-
+        Fixture fixture = command.toFixture();
         Optional<Fixture> fixtureById = service.findFixtureById(fixture.getId());
         String messageName = "", messageFis = "";
         if (fixtureById.isPresent()) {
@@ -140,5 +146,21 @@ class FixtureController {
         return "redirect:/fixtures";
     }
 
+    @Data
+    private static class FixtureCommand {
 
+        private Long id;
+        @NotBlank
+        private String name;
+        @NotNull
+        private FisProcess fisProcess;
+
+        private Status statusStrain;
+        private LocalDate expiredDateStrain;
+        private List<FixtureHistory> fixtureHistories;
+
+        public Fixture toFixture() {
+            return new Fixture(this.getId(), this.getName(), this.getFisProcess(), this.getStatusStrain(), this.getExpiredDateStrain(), this.getFixtureHistories());
+        }
+    }
 }
