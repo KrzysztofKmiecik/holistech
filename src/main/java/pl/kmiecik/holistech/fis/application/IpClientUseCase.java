@@ -12,10 +12,10 @@ import java.net.Socket;
 class IpClientUseCase implements IpClientService {
 
     @Override
-    public String sendAndReceiveIPMessage(String ipAdress, Integer ipPort, String message) {
+    public String sendAndReceiveIPMessage(String ipAddress, Integer ipPort, String message) {
         String str = "";
         try (
-                Socket mySocket = new Socket(ipAdress, ipPort);
+                Socket mySocket = new Socket(ipAddress, ipPort);
                 PrintWriter printWriter = new PrintWriter(mySocket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(mySocket.getInputStream()))
         ) {

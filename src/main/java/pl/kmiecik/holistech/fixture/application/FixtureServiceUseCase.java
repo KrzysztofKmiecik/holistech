@@ -3,7 +3,7 @@ package pl.kmiecik.holistech.fixture.application;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +20,6 @@ import pl.kmiecik.holistech.fixture.infrastructure.FixtureRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -90,8 +89,12 @@ class FixtureServiceUseCase implements FixtureService {
     }
 
     private String getSimpleGrantedAuthoritiesString() {
-        Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        return authorities.toString();
+        String authority = "";
+        Optional<? extends GrantedAuthority> grantedAuthority = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst();
+        if (grantedAuthority.isPresent()) {
+            authority = grantedAuthority.get().getAuthority();
+        }
+        return authority;
     }
 
     @Override
