@@ -1,6 +1,10 @@
 # Holistech
 - [x] FIS
 - [x] email
-- [ ] scheduler
+- [ ] Holistech API
 - [ ] manual setup
 - [x] log history
+
+![](src/main/resources/static/photos/Holistech.jpg)
+
+
