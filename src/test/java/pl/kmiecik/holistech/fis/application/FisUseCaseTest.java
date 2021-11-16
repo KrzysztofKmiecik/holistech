@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import pl.kmiecik.holistech.config.CustomProperties;
 import pl.kmiecik.holistech.fis.application.port.FisService;
 import pl.kmiecik.holistech.fis.application.port.IpClientService;
 import pl.kmiecik.holistech.fis.domain.FISVariantNotFoundExeption;
@@ -20,7 +21,8 @@ class FisUseCaseTest {
     void shouldThrowWhenGetFailFromFisforSendAndReceiveIPMessage() {
         //given
         ipClientService = Mockito.mock(IpClientService.class);
-        fisService = new FisUseCase(ipClientService);
+
+        fisService = new FisUseCase(ipClientService,new CustomProperties());
         String fisMsg="ADDFIXTURE|process=ICT|fixture=FIXT1|status=PASS";
         String ip = "10.235.241.235";
         int port = 24431;
@@ -79,7 +81,7 @@ class FisUseCaseTest {
 
     @BeforeEach
     void setUp() {
-        fisService = new FisUseCase(ipClientService);
+        fisService = new FisUseCase(ipClientService,new CustomProperties());
     }
 
 

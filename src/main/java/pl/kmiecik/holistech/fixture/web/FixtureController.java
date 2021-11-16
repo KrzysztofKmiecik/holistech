@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("SameReturnValue")
 @Controller
 class FixtureController {
 
@@ -117,7 +118,7 @@ class FixtureController {
         Fixture fixture = service.setStrainStatus(id, Status.OK);
         FixtureHistory fixtureHistory = service.getFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_OK);
         service.saveFixture(fixture, fixtureHistory);
-        service.sendEmail(Optional.ofNullable(fixture));
+        service.sendEmail(fixture);
         return "redirect:/fixtures";
     }
 
@@ -128,7 +129,7 @@ class FixtureController {
         Fixture fixture = service.setStrainStatus(id, Status.NOK);
         FixtureHistory fixtureHistory = service.getFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_NOK);
         service.saveFixture(fixture, fixtureHistory);
-        service.sendEmail(Optional.ofNullable(fixture));
+        service.sendEmail(fixture);
         return "redirect:/fixtures";
     }
 

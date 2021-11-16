@@ -8,8 +8,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Getter
 @Setter
-@ConfigurationProperties(prefix = "myproxy")
-public class CustomProxyProperties {
-    String login;
-    String password;
+@ConfigurationProperties(prefix = "custom")
+public class CustomProperties {
+    String emailsender;
+    String emailpassword;
+    String[] emailreceiver;
+    String fisip;
+    int fisport;
+    String proxylogin;
+    String proxypassword;
 }

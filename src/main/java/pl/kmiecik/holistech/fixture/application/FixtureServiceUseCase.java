@@ -3,11 +3,11 @@ package pl.kmiecik.holistech.fixture.application;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kmiecik.holistech.config.CustomProperties;
 import pl.kmiecik.holistech.email.application.port.GmailService;
 import pl.kmiecik.holistech.fis.application.port.FisService;
 import pl.kmiecik.holistech.fixture.application.port.FixtureService;
@@ -36,8 +36,9 @@ class FixtureServiceUseCase implements FixtureService {
     private final FixtureHistoryRepository historyRepository;
     private final FisService fisService;
     private final GmailService gmailService;
+    private final CustomProperties customProperties;
 
-    @Value("${fixture-service-usecase.emailTo}")
+
     private String[] emailToArray;
 
     @Override
@@ -65,14 +66,14 @@ class FixtureServiceUseCase implements FixtureService {
     }
 
     @Override
-    public void sendEmail(Optional<Fixture> myFixture) {
+    public void sendEmail(Fixture myFixture) {
 
-        if (myFixture.isPresent()) {
-            int size = myFixture.get().getFixtureHistories().size();
-            String lastChangeOwner = myFixture.get().getFixtureHistories().get(size - 1).getChangeOwner();
-            String descriptionChange = myFixture.get().getFixtureHistories().get(size - 1).getDescriptionOfChange();
-            String message = String.format("Fixture %s was change to %s  by  %s  with description %s ", myFixture.get().getName(), myFixture.get().getStatusStrain(), lastChangeOwner, descriptionChange);
-
+        if (myFixture != null) {
+            int size = myFixture.getFixtureHistories().size();
+            String lastChangeOwner = myFixture.getFixtureHistories().get(size - 1).getChangeOwner();
+            String descriptionChange = myFixture.getFixtureHistories().get(size - 1).getDescriptionOfChange();
+            String message = String.format("Fixture %s was change to %s  by  %s  with description %s ", myFixture.getName(), myFixture.getStatusStrain(), lastChangeOwner, descriptionChange);
+            emailToArray = customProperties.getEmailreceiver();
             IntStream.range(0, emailToArray.length).forEach(i -> gmailService.sendSimpleMessage(emailToArray[i], "Status was change", message));
         }
     }
