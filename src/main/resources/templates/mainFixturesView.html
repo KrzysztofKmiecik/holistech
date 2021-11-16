@@ -14,9 +14,17 @@
 <div class="container my-5">
     <div class="row">
         <div class="col">
-            <h1>Fixtures</h1>
-            <a th:align="right" th:href="@{/fixtures}">Fixture list</a>
+            <h1 th:text="#{fixture.fixtures}">Fixtures</h1>
+            <a th:align="right" th:href="@{/fixtures}" th:text="#{fixture.list}" >Fixture list</a>
         </div>
+        <div class="col-4">
+            <a href="?lang=pl_PL" th:text="#{language.polish}"></a>|
+            <a href="?lang=en_GB" th:text="#{language.english}"></a>|
+            <a href="?lang=de_DE" th:text="#{language.german}"></a>|
+            <a href="?lang=ru_RU" th:text="#{language.russian}"></a>
+
+        </div>
+
         <div class="col">
             <a href="https://aptiv.com" target="_blank" title="https://aptiv.com">
                 <img src="#" th:src="@{/photos/delphi.png}" width="200" height="45" alt="aptiv" th:align="right"/>
@@ -25,7 +33,7 @@
             <p th:align="right"><label> Gdańsk Poland kmk 1.0</label></p>
         </div>
         <div class="float-right">
-            <a th:href="@{/logout}" th:text="Logout" class="btn btn-outline-secondary btn-sm ml-3">Logout</a>
+            <a th:href="@{/logout}" th:text="#{user.security.logout}" class="btn btn-outline-secondary btn-sm ml-3">Logout</a>
         </div>
     </div>
 
@@ -41,14 +49,14 @@
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>name</th>
-                    <th>Fis_Process</th>
-                    <th>status_strain</th>
-                    <th>expired_date_strain</th>
-                    <th>edit</th>
-                    <th>delete</th>
-                    <th>set_status_OK</th>
-                    <th>set_status_NOK</th>
+                    <th th:text="#{fixture.name}">name</th>
+                    <th th:text="#{fixture.fis}">Fis_Process</th>
+                    <th th:text="#{fixture.status}">status_strain</th>
+                    <th th:text="#{fixture.expired}">expired_date_strain</th>
+                    <th th:text="#{fixture.edit}">edit</th>
+                    <th th:text="#{fixture.delete}">delete</th>
+                    <th th:text="#{fixture.ok}">set_status_OK</th>
+                    <th th:text="#{fixture.nok}">set_status_NOK</th>
                 </tr>
                 </thead>
 
@@ -65,7 +73,7 @@
                         <div sec:authorize="hasRole('ROLE_TESTER')">
                             <form th:action="@{edit-fixtureButton}" th:object="${newFixture}" method="post">
                                 <input name="id" type="hidden" th:value="${fixture.getId()}">
-                                <button name="action" type="submit" class="btn btn-primary btn-block">Edit</button>
+                                <button name="action" type="submit" th:text="#{button.edit}" class="btn btn-primary btn-block">Edit</button>
                             </form>
                         </div>
                     </td>
@@ -73,7 +81,7 @@
                         <div sec:authorize="hasRole('ROLE_TESTER')">
                             <form th:action="@{delete-fixtureButton}" th:object="${newFixture}" method="post">
                                 <input name="id" type="hidden" th:value="${fixture.getId()}">
-                                <button name="action" type="submit" class="btn btn-primary btn-block">Delete</button>
+                                <button name="action" type="submit" th:text="#{button.delete}" class="btn btn-primary btn-block">Delete</button>
                             </form>
                         </div>
 
@@ -83,7 +91,7 @@
                         <div sec:authorize="hasRole('ROLE_QUALITY')">
                             <form th:action="@{setOK-fixtureButton}" th:object="${newFixture}" method="post">
                                 <input name="id" type="hidden" th:value="${fixture.getId()}">
-                                <button name="action" type="submit" class="btn btn-primary btn-block">SetOK</button>
+                                <button name="action" type="submit" th:text="#{button.ok}" class="btn btn-primary btn-block">SetOK</button>
                                 <label for="setOKdescr"></label><input style='width:100%' id="setOKdescr" type="text" th:field="*{descriptionOfChange}">
                             </form>
                         </div>
@@ -93,7 +101,7 @@
                         <form th:action="@{setNOK-fixtureButton}" th:object="${newFixture}" method="post">
                             <input name="id" type="hidden" th:value="${fixture.getId()}">
 
-                            <button name="action" type="submit" class="btn btn-primary btn-block">SetNOK</button>
+                            <button name="action" type="submit" th:text="#{button.nok}" class="btn btn-primary btn-block">SetNOK</button>
                             <label for="setNokdescr"></label><input style='width:100%' id="setNokdescr" type="text" th:field="*{descriptionOfChange}">
 
                         </form>
@@ -104,7 +112,7 @@
             <div sec:authorize="hasRole('ROLE_TESTER')">
                 <form th:action="@{/add-fixtureButton}" th:object="${newFixture}" method="post">
 
-                    <button type="submit" class="btn btn-primary btn-block">Add fixture</button>
+                    <button type="submit" th:text="#{button.add}" class="btn btn-primary btn-block">Add fixture</button>
                 </form>
             </div>
         </div>

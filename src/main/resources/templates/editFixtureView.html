@@ -8,23 +8,19 @@
     <link rel="stylesheet" href="/webjars/font-awesome/5.11.2/css/v4-shims.min.css">
 </head>
 <body>
-<!--
-<h1>Edit Fixture</h1>
-<form th:action="@{/editFixture}" th:object="${fixtureToEdit}" method="post">
-    <input type="hidden" th:field="*{id}">
-    <p><input type="text" th:field="*{name}">Fixture name</p>
-    <p><input type="text" th:field="*{fisProcess}">Fis process</p>
-    <input type="hidden" th:field="*{statusStrain}">
-    <input type="hidden" th:field="*{expiredDateStrain}">
-    <input type="submit" th:value="EditFixture">
 
-</form>
--->
 <div class="container my-5">
     <div class="row">
         <div class="col">
-            <h1>Edit Fixture</h1>
-            <a th:align="right" th:href="@{/fixtures}">Fixture list</a>
+            <h1 th:text="#{edit.fixture}">Edit Fixture</h1>
+            <a th:align="right" th:href="@{/fixtures}" th:text="#{fixture.list}">Fixture list</a>
+        </div>
+        <div class="col-4">
+            <a href="?lang=pl_PL" th:text="#{language.polish}"></a>|
+            <a href="?lang=en_GB" th:text="#{language.english}"></a>|
+            <a href="?lang=de_DE" th:text="#{language.german}"></a>|&nbsp;
+            <a href="?lang=ru_RU" th:text="#{language.russian}"></a>
+
         </div>
         <div class="col">
             <a href="https://aptiv.com" target="_blank" title="https://aptiv.com">
@@ -34,7 +30,7 @@
             <p th:align="right"><label> Gdańsk Poland kmk 1.0</label></p>
         </div>
         <div class="float-right">
-            <a th:href="@{/logout}" th:text="Logout" class="btn btn-outline-secondary btn-sm ml-3">Logout</a>
+            <a th:href="@{/logout}"  th:text="#{user.security.logout}" class="btn btn-outline-secondary btn-sm ml-3">Logout</a>
         </div>
     </div>
 
@@ -44,7 +40,7 @@
                 <div class="form-row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="FixtName">Select Fixture Name</label>
+                            <label for="FixtName" th:text="#{edit.name}">Write Fixture Name</label>
                             <input type="text" id="FixtName" th:field="*{name}" class="form-control">
                             <input type="hidden" th:field="*{id}">
                             <input type="hidden" th:field="*{statusStrain}">
@@ -53,7 +49,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="fisProcess">Select FIS Process</label>
+                            <label for="fisProcess" th:text="#{edit.fis}">Select Fixture Type</label>
                             <select class="form-control" id="fisProcess" th:field="*{fisProcess}">
                                 <option th:each="fisProcess : ${T(pl.kmiecik.holistech.fixture.domain.FisProcess).values()}"
                                         th:value="${fisProcess}" th:text="${fisProcess}"></option>
@@ -61,11 +57,8 @@
                         </div>
                     </div>
                 </div>
-                <!--            <div class="form-group">
-                                <label for="body">Body</label>
-                                <textarea id="body" th:field="*{body}" class="form-control"></textarea>
-                            </div> -->
-                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+                <button type="submit" th:text="#{edit.submit}" class="btn btn-primary btn-block">Submit</button>
             </form>
         </div>
     </div>
