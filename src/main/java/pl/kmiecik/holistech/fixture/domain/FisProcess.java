@@ -1,5 +1,6 @@
 package pl.kmiecik.holistech.fixture.domain;
 
+@SuppressWarnings("unused")
 public enum FisProcess {
-    ICT,SMT_MOL
+    @SuppressWarnings("unused") ICT, @SuppressWarnings("unused") SMT_MOL
 }
