@@ -7,6 +7,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.mail.internet.AddressException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler {
+class GlobalExceptionHandler {
 
     @ExceptionHandler({BindException.class})
     public ResponseEntity<Object> catchInputValidationException(BindException ex) {
@@ -34,8 +35,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(body, status);
     }
 
-    @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
-    public ResponseEntity<Object> catchInputSQLValidationException(SQLIntegrityConstraintViolationException ex) {
+    @ExceptionHandler({SQLIntegrityConstraintViolationException.class,AddressException.class})
+    public ResponseEntity<Object> catchInputSQLValidationException(Exception ex) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;
         Map<String, Object> body = new HashMap<>();

@@ -4,10 +4,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.kmiecik.holistech.fixture.application.port.FixtureService;
 import pl.kmiecik.holistech.fixture.domain.*;
 
@@ -38,9 +35,8 @@ class FixtureController {
         return "mainFixturesView";
     }
 
-    @GetMapping("/fixture")
-    //  @ResponseBody
-    public String getFixtureById(@RequestParam Long id, Model model) {
+    @GetMapping("/fixture/{id}")
+    public String getFixtureById(@PathVariable Long id, Model model) {
         List<FixtureHistory> fixtureHistoryList;
         Fixture fixture;
         Optional<Fixture> fixtureById = service.findFixtureById(id);
@@ -84,11 +80,11 @@ class FixtureController {
     //***********
     @PostMapping("/edit-fixtureButton")
     public String editFixtureButton(@RequestParam String id) {
-        return "redirect:/editFixture?id=" + id;
+        return "redirect:/editFixture/" + id;
     }
 
-    @GetMapping("/editFixture")
-    public String editFixtureGET(Model model, @RequestParam String id) {
+    @GetMapping("/editFixture/{id}")
+    public String editFixtureGET(Model model, @PathVariable String id) {
         Fixture fixtureToEdit = service.findFixtureById(Long.valueOf(id)).orElse(new Fixture());
         model.addAttribute("fixtureToEdit", fixtureToEdit);
         return "editFixtureView";
