@@ -6,5 +6,4 @@ public class FISVariantNotFoundException extends RuntimeException {
         super("FIS server  response : "+ message);
     }
 
-
 }

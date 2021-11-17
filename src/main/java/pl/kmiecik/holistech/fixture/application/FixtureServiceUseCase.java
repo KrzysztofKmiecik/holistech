@@ -36,8 +36,6 @@ class FixtureServiceUseCase implements FixtureService {
     private final FisService fisService;
     private final GmailService gmailService;
     private final CustomProperties customProperties;
-
-
     private String[] emailToArray;
 
     @Override
@@ -110,7 +108,6 @@ class FixtureServiceUseCase implements FixtureService {
     @Override
     public void setMyDefaultStrainStatus(final Fixture fixture) {
         fixture.setStatusStrain(Status.NOK);
-        //   fixture.setFixtureHistories(Collections.emptyList());
     }
 
     @Override
