@@ -11,9 +11,6 @@ import pl.kmiecik.holistech.config.CustomProperties;
 
 import java.util.Properties;
 
-/**
- * https://www.baeldung.com/spring-email
- */
 
 @Configuration
 @EnableConfigurationProperties(CustomProperties.class)

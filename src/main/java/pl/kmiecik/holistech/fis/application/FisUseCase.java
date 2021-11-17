@@ -14,7 +14,7 @@ import pl.kmiecik.holistech.fixture.domain.Fixture;
  * Server   IP : 10.235.241.235  Port : 24431
  * "ADDFIXTURE|proces=ICT|fixture=1|status=PASS"
  */
-@SuppressWarnings("SpellCheckingInspection")
+
 @Slf4j
 @Service
 @RequiredArgsConstructor

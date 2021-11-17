@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@SuppressWarnings("SameReturnValue")
 @Controller
 class FixtureController {
 
@@ -150,7 +149,6 @@ class FixtureController {
         private String name;
         @NotNull
         private FisProcess fisProcess;
-
         private Status statusStrain;
         private LocalDate expiredDateStrain;
         private List<FixtureHistory> fixtureHistories;

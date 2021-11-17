@@ -8,10 +8,6 @@ import pl.kmiecik.holistech.config.CustomProperties;
 import pl.kmiecik.holistech.email.application.port.GmailService;
 
 
-/**
- * https://www.baeldung.com/spring-email
- */
-
 @Service
 class GmailUseCase implements GmailService {
 
@@ -33,6 +29,5 @@ class GmailUseCase implements GmailService {
         message.setText(text);
         emailSender.send(message);
     }
-
 
 }

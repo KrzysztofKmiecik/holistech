@@ -25,9 +25,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("tester").password(passwordEncoder().encode("1234")).roles("TESTER")
                 .and()
                 .withUser("user").password(passwordEncoder().encode("1")).roles("USER");
-
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -59,7 +57,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().frameOptions().disable();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
