@@ -62,7 +62,7 @@
                 </thead>
 
                 <tr th:each="fixture:${allFixtures}">
-                    <td><a href="#" th:href="@{'/fixture'(id=${fixture.getId()})}"
+                    <td><a href="#" th:href="@{/fixture/{id}(id= ${fixture.getId()})}"
                            th:text="${fixture.getId()}">fixtureById</a></td>
                     <td th:text="${fixture.getName()}">Name</td>
                     <td th:text="${fixture.getFisProcess()}">FisProcess</td>
