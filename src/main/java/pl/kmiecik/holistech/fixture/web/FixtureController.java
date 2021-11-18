@@ -1,5 +1,6 @@
 package pl.kmiecik.holistech.fixture.web;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -68,7 +69,7 @@ class FixtureController {
 
     @PostMapping("/addFixture")
     public String addFixturePOST(@Valid @ModelAttribute FixtureCommand command) {
-        Fixture fixture= command.toFixture();
+        Fixture fixture = command.toFixture();
         service.setMyDefaultStrainStatus(fixture);
         service.setMyExpiredStrainDate(fixture);
         FixtureHistory fixtureHistory = service.getFixtureHistory(fixture, "INIT", ModificationReason.CREATE);
@@ -142,6 +143,7 @@ class FixtureController {
     }
 
     @Data
+    @Builder
     private static class FixtureCommand {
 
         private Long id;

@@ -12,11 +12,12 @@ public interface IpClientService {
     @Data
     @AllArgsConstructor
     class IpCommunicationResponse {
-        public static final IpCommunicationResponse SUCCESS = new IpCommunicationResponse(true, Collections.emptyList(), "");
 
         boolean connected;
         List<String> errors;
         String responseMessage;
+
+        public static final IpCommunicationResponse SUCCESS = new IpCommunicationResponse(true, Collections.emptyList(), "");
     }
 }
 
