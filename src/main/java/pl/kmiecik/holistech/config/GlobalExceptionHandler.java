@@ -35,7 +35,7 @@ class GlobalExceptionHandler {
         return new ResponseEntity<>(body, status);
     }
 
-    @ExceptionHandler({SQLIntegrityConstraintViolationException.class,AddressException.class})
+    @ExceptionHandler({Exception.class})
     public ResponseEntity<Object> catchInputSQLValidationException(Exception ex) {
 
         HttpStatus status = HttpStatus.BAD_REQUEST;

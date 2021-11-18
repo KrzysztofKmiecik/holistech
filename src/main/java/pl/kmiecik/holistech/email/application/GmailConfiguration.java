@@ -14,7 +14,6 @@ import java.util.Properties;
 
 @Configuration
 @EnableConfigurationProperties(CustomProperties.class)
-
 class GmailConfiguration {
 
     private final CustomProperties customProperties;

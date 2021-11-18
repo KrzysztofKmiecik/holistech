@@ -24,7 +24,7 @@ class GmailUseCase implements GmailService {
     public void sendSimpleMessage(final String to, final String subject, final String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(customProperties.getEmailsender());
-        message.setTo(to);
+        message.setTo(to.trim());
         message.setSubject(subject);
         message.setText(text);
         emailSender.send(message);
