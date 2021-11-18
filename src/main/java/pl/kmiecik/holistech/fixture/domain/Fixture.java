@@ -1,5 +1,6 @@
 package pl.kmiecik.holistech.fixture.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,7 @@ public class Fixture {
     private LocalDate expiredDateStrain;
 
     @OneToMany(mappedBy = "fixture",cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<FixtureHistory> fixtureHistories;
-
 
 }

@@ -1,7 +1,10 @@
 package pl.kmiecik.holistech.fixture.application.port;
 
+import lombok.Value;
 import pl.kmiecik.holistech.fixture.domain.*;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +27,30 @@ public interface FixtureService {
     void setMyExpiredStrainDate(Fixture fixture);
 
     Optional<Fixture> findFixtureById(Long valueOf);
+
+    @Value
+    class FixtureCommand {
+
+        Fixture fixure;
+
+    }
+
+    @Value
+    class FixtureResponse {
+
+        boolean success;
+        List<String> errors;
+
+        public static FixtureResponse success() {
+            return new FixtureResponse(true, Collections.emptyList());
+        }
+
+        public static FixtureResponse failure(String... errors) {
+            return new FixtureResponse(false, Arrays.asList(errors));
+        }
+
+
+    }
 
 
 }
