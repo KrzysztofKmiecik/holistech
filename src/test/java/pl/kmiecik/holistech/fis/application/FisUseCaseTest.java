@@ -7,15 +7,18 @@ import org.mockito.Mockito;
 import pl.kmiecik.holistech.config.CustomProperties;
 import pl.kmiecik.holistech.fis.application.port.FisService;
 import pl.kmiecik.holistech.fis.application.port.IpClientService;
+import pl.kmiecik.holistech.fis.application.port.IpClientService.IpCommunicationResponse;
 import pl.kmiecik.holistech.fis.domain.FISVariantNotFoundException;
+
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 
-@SuppressWarnings("SpellCheckingInspection")
 class FisUseCaseTest {
     FisService fisService;
     IpClientService ipClientService;
+    IpCommunicationResponse ipCommunicationResponse;
 
     @Test
     @DisplayName("should Throw When Get Fail From Fis for SendAndReceiveIPMessage")
@@ -27,7 +30,7 @@ class FisUseCaseTest {
         String fisMsg = "ADDFIXTURE|process=ICT|fixture=FIXT1|status=PASS";
         String ip = "10.235.241.235";
         int port = 24431;
-        Mockito.when(ipClientService.sendAndReceiveIPMessage(ip, port, fisMsg)).thenReturn("BCMP|status=FAIL");
+        Mockito.when(ipClientService.sendAndReceiveIPMessage(ip, port, fisMsg)).thenReturn(new IpCommunicationResponse(true, Collections.emptyList(),"BCMP|status=FAIL"));
         //when
 
         //then

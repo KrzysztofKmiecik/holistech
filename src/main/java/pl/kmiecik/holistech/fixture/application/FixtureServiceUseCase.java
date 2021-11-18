@@ -55,7 +55,6 @@ class FixtureServiceUseCase implements FixtureService {
         if (myFixture.isPresent()) {
             myFixture.get().setStatusStrain(status);
             fisService.sendFixtureStatusToFis(myFixture.get());
-            //   sendEmail(myFixture);
             return myFixture.get();
         } else {
             return new Fixture();
@@ -63,7 +62,7 @@ class FixtureServiceUseCase implements FixtureService {
     }
 
     @Override
-    public void sendEmail(Fixture myFixture) {
+    public void sendEmail(final Fixture myFixture) {
 
         if (myFixture != null) {
             int size = myFixture.getFixtureHistories().size();
@@ -115,6 +114,4 @@ class FixtureServiceUseCase implements FixtureService {
         LocalDate myDate = LocalDate.now();
         fixture.setExpiredDateStrain(myDate.plusMonths(6));
     }
-
-
 }

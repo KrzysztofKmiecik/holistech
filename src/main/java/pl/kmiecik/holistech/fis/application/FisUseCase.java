@@ -3,9 +3,12 @@ package pl.kmiecik.holistech.fis.application;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.kmiecik.holistech.config.CustomProperties;
 import pl.kmiecik.holistech.fis.application.port.FisService;
 import pl.kmiecik.holistech.fis.application.port.IpClientService;
+import pl.kmiecik.holistech.fis.application.port.IpClientService.IpCommunicationResponse;
+import pl.kmiecik.holistech.fis.domain.FISNoCommunicationException;
 import pl.kmiecik.holistech.fis.domain.FISVariantNotFoundException;
 import pl.kmiecik.holistech.fixture.domain.Fixture;
 
@@ -18,6 +21,7 @@ import pl.kmiecik.holistech.fixture.domain.Fixture;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional
 class FisUseCase implements FisService {
 
     private final IpClientService ipClientService;
@@ -26,12 +30,15 @@ class FisUseCase implements FisService {
 
     @Override
     public void sendAndReceiveIPMessage(final String msg, final String ip, final Integer port) {
-        final String receiveIPMessage = ipClientService.sendAndReceiveIPMessage(ip, port, msg);
+        IpCommunicationResponse ipCommunicationResponse = ipClientService.sendAndReceiveIPMessage(ip, port, msg);
+        if (!ipCommunicationResponse.isConnected()) {
+            throw new FISNoCommunicationException("No Fis Communication");
+        }
+        final String receiveIPMessage = ipCommunicationResponse.getResponseMessage();
         if (receiveIPMessage.contains("FAIL")) {
             throw new FISVariantNotFoundException(receiveIPMessage);
         }
         log.info("my message is = " + msg + "--->>> FIS response is = " + receiveIPMessage);
-        System.out.println(msg + receiveIPMessage);
     }
 
     @Override
@@ -52,6 +59,4 @@ class FisUseCase implements FisService {
         Integer port = customProperties.getFisport();
         sendAndReceiveIPMessage(messageToFis, ip, port);
     }
-
-
 }
