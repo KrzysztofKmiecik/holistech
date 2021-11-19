@@ -17,6 +17,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static pl.kmiecik.holistech.fixture.application.port.FixtureService.*;
+
 @Controller
 class FixtureController {
 
@@ -72,7 +74,7 @@ class FixtureController {
         Fixture fixture = command.toFixture();
         service.setMyDefaultStrainStatus(fixture);
         service.setMyExpiredStrainDate(fixture);
-        FixtureHistory fixtureHistory = service.getFixtureHistory(fixture, "INIT", ModificationReason.CREATE);
+        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, "INIT", ModificationReason.CREATE);
         service.saveFixture(fixture, fixtureHistory);
         return "redirect:/fixtures";
     }
@@ -93,32 +95,19 @@ class FixtureController {
     @PostMapping("/editFixture")
     public String editFixturePOST(@Valid @ModelAttribute FixtureCommand command) {
 
-        FisProcess fisProcess;
-        Fixture fixture = command.toFixture();
-        Optional<Fixture> fixtureById = service.findFixtureById(fixture.getId());
-        String messageName = "", messageFis = "";
-        if (fixtureById.isPresent()) {
-            Fixture fixtureOld = fixtureById.get();
-            String name = fixtureOld.getName();
-            fisProcess = fixtureOld.getFisProcess();
-            if (!name.equals(fixture.getName())) {
-                messageName = String.format("name was change from  %s to %s", name, fixture.getName());
-            }
-            if (!fisProcess.name().equals(fixture.getFisProcess().name())) {
-                messageFis = String.format("Fis_Process was change from  %s to %s", fisProcess.name(), fixture.getFisProcess().name());
-            }
-        }
-
-        FixtureHistory fixtureHistory = service.getFixtureHistory(fixture, String.format("%s , %s", messageName, messageFis), ModificationReason.EDIT);
+        FixtureResponse fixtureResponse = service.updateFixture(command.toFixture());
+        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, String.format("%s , %s", fixtureResponse.getMessages().get(0), fixtureResponse.getMessages().get(1)), ModificationReason.EDIT);
         service.saveFixture(fixture, fixtureHistory);
         return "redirect:/fixtures";
     }
+
+
     //***********
 
     @PostMapping("/setOK-fixtureButton")
     public String setOKPost(@RequestParam String id, @ModelAttribute FixtureDto fixtureDto) {
         Fixture fixture = service.setStrainStatus(id, Status.OK);
-        FixtureHistory fixtureHistory = service.getFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_OK);
+        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_OK);
         service.saveFixture(fixture, fixtureHistory);
         service.sendEmail(fixture);
         return "redirect:/fixtures";
@@ -129,7 +118,7 @@ class FixtureController {
     @PostMapping("/setNOK-fixtureButton")
     public String setNOKPost(@RequestParam String id, @ModelAttribute FixtureDto fixtureDto) {
         Fixture fixture = service.setStrainStatus(id, Status.NOK);
-        FixtureHistory fixtureHistory = service.getFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_NOK);
+        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_NOK);
         service.saveFixture(fixture, fixtureHistory);
         service.sendEmail(fixture);
         return "redirect:/fixtures";

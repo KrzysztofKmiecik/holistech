@@ -11,15 +11,14 @@ import pl.kmiecik.holistech.config.CustomProperties;
 import pl.kmiecik.holistech.email.application.port.GmailService;
 import pl.kmiecik.holistech.fis.application.port.FisService;
 import pl.kmiecik.holistech.fixture.application.port.FixtureService;
-import pl.kmiecik.holistech.fixture.domain.Fixture;
-import pl.kmiecik.holistech.fixture.domain.FixtureHistory;
-import pl.kmiecik.holistech.fixture.domain.ModificationReason;
-import pl.kmiecik.holistech.fixture.domain.Status;
+import pl.kmiecik.holistech.fixture.domain.*;
 import pl.kmiecik.holistech.fixture.infrastructure.FixtureHistoryRepository;
 import pl.kmiecik.holistech.fixture.infrastructure.FixtureRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -75,7 +74,7 @@ class FixtureServiceUseCase implements FixtureService {
     }
 
     @Override
-    public FixtureHistory getFixtureHistory(final Fixture fixture, final String descriptionOfChange, final ModificationReason modificationReason) {
+    public FixtureHistory createFixtureHistory(final Fixture fixture, final String descriptionOfChange, final ModificationReason modificationReason) {
         FixtureHistory fixtureHistory = new FixtureHistory();
         fixtureHistory.setFixture(fixture);
         fixtureHistory.setModificationDateTime(LocalDateTime.now());
@@ -102,6 +101,39 @@ class FixtureServiceUseCase implements FixtureService {
     @Override
     public Optional<Fixture> findFixtureById(final Long id) {
         return repository.findById(id);
+    }
+
+    @Override
+    public FixtureResponse updateFixture(Long id,UpdateFixtureCommand command) {
+        Fixture fixture= command.;
+        FisProcess fisProcess;
+        boolean status;
+        List<String> messages = new ArrayList<>();
+        List<String> errors;
+        Optional<Fixture> fixtureById = this.findFixtureById(id);
+        String messageName = "", messageFis = "";
+        messages.add(messageName);
+        messages.add(messageFis);
+
+        if (fixtureById.isPresent()) {
+            Fixture fixtureOld = fixtureById.get();
+            String name = fixtureOld.getName();
+            fisProcess = fixtureOld.getFisProcess();
+            if (!name.equals(fixture.getName())) {
+                messages.set(0, String.format("name was change from  %s to %s", name, fixture.getName()));
+            }
+            if (!fisProcess.name().equals(fixture.getFisProcess().name())) {
+                messages.set(1, String.format("Fis_Process was change from  %s to %s", fisProcess.name(), fixture.getFisProcess().name()));
+            }
+            status = true;
+            errors = Collections.emptyList();
+        }else{
+            status=false;
+            errors=Collections.singletonList("updateFixture error");
+        }
+
+        return new FixtureResponse(status, messages, errors);
+
     }
 
     @Override
