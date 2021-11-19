@@ -3,16 +3,23 @@ package pl.kmiecik.holistech.fixture.web;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.kmiecik.holistech.fixture.application.port.FixtureService;
 import pl.kmiecik.holistech.fixture.domain.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
+import static pl.kmiecik.holistech.fixture.application.port.FixtureService.*;
 
 @RestController
 @RequestMapping("/api/fixtures")
@@ -35,6 +42,56 @@ class FixtureRestController {
         return service.findFixtureById(id)
                 .map(fixture -> ResponseEntity.ok(fixture))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+
+    /**
+     * {
+     * "name": "fixt3",
+     * "fisProcess": "ICT"
+     * }
+     */
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Void> addFixture(@Valid @RequestBody RestFixtureCommand command) {
+        Fixture fixture = command.toFixture();
+        service.setMyDefaultStrainStatus(fixture);
+        service.setMyExpiredStrainDate(fixture);
+        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, "INIT", ModificationReason.CREATE);
+        service.saveFixture(fixture, fixtureHistory);
+        URI fixtureUri = createFixtureUri(fixture);
+        return ResponseEntity.created(fixtureUri).build();
+    }
+
+    private URI createFixtureUri(Fixture fixture) {
+        return ServletUriComponentsBuilder
+                .fromCurrentRequestUri()
+                .path("/" + fixture.getId().toString())
+                .build()
+                .toUri();
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFixture(@PathVariable Long id) {
+        service.deleteFixture(id);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateFixture(@PathVariable Long id, @RequestBody RestFixtureCommand command) {
+        Optional<Fixture> fixtureById = service.findFixtureById(id);
+        if (fixtureById.isPresent()) {
+               FixtureResponse fixtureResponse = service.updateFixture(command.toUpdateFixtureCommand());
+            if (!fixtureResponse.isSuccess()) {
+                String message = String.join(", ", fixtureResponse.getErrors());
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+            } else {
+                FixtureHistory fixtureHistory = service.createFixtureHistory(fixtureById.get(), String.format("%s , %s", fixtureResponse.getMessages().get(0), fixtureResponse.getMessages().get(1)), ModificationReason.EDIT);
+                service.saveFixture(fixtureById.get(), fixtureHistory);
+            }
+        }
+
     }
 
     /*
@@ -129,6 +186,13 @@ class FixtureRestController {
 
         public Fixture toFixture() {
             return new Fixture(this.getId(), this.getName(), this.getFisProcess(), this.getStatusStrain(), this.getExpiredDateStrain(), this.getFixtureHistories());
+        }
+
+        CreateFixtureCommand toCreateFixtureCommand() {
+            return new CreateFixtureCommand(id, name, fisProcess, statusStrain, expiredDateStrain, fixtureHistories);
+        }
+        UpdateFixtureCommand toUpdateFixtureCommand() {
+            return new UpdateFixtureCommand(id, name, fisProcess, statusStrain, expiredDateStrain, fixtureHistories);
         }
     }
 
