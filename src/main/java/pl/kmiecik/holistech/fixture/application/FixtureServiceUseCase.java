@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import pl.kmiecik.holistech.config.CustomProperties;
 import pl.kmiecik.holistech.email.application.port.GmailService;
 import pl.kmiecik.holistech.fis.application.port.FisService;
@@ -47,7 +49,15 @@ class FixtureServiceUseCase implements FixtureService {
     }
 
     @Override
-    public void saveFixture(final Fixture fixture, final FixtureHistory fixtureHistory) {
+    public void addFixture(final Fixture fixture) {
+        setMyDefaultStrainStatus(fixture);
+        setMyExpiredStrainDate(fixture);
+        FixtureHistory fixtureHistory = createFixtureHistory(fixture, "INIT", ModificationReason.CREATE);
+        addFixtureHistory(fixture, fixtureHistory);
+    }
+
+    @Override
+    public void addFixtureHistory(final Fixture fixture, final FixtureHistory fixtureHistory) {
         repository.save(fixture);
         historyRepository.save(fixtureHistory);
     }
@@ -108,35 +118,58 @@ class FixtureServiceUseCase implements FixtureService {
     }
 
     @Override
-    public FixtureResponse updateFixture(Fixture fixture) {
+    public FixtureResponse updateFixture(Long id, Fixture fixtureDataToUpdate) {
 
-        FisProcess fisProcess;
+        FisProcess oldFisProcess;
         boolean status;
         List<String> messages = new ArrayList<>();
         List<String> errors;
-        Optional<Fixture> fixtureById = this.findFixtureById(fixture.getId());
+
+
+        Optional<Fixture> fixture= this.findFixtureById(id);
+
         String messageName = "", messageFis = "";
         messages.add(messageName);
         messages.add(messageFis);
 
-        if (fixtureById.isPresent()) {
-            Fixture fixtureOld = fixtureById.get();
-            String name = fixtureOld.getName();
-            fisProcess = fixtureOld.getFisProcess();
-            if (!name.equals(fixture.getName())) {
-                messages.set(0, String.format("name was change from  %s to %s", name, fixture.getName()));
+        if (fixture.isPresent()) {
+
+            String oldName = fixture.get().getName();
+            oldFisProcess = fixture.get().getFisProcess();
+            if (!oldName.equals(fixtureDataToUpdate.getName())) {
+                messages.set(0, String.format("name was change from  %s to %s", oldName, fixtureDataToUpdate.getName()));
             }
-            if (!fisProcess.name().equals(fixture.getFisProcess().name())) {
-                messages.set(1, String.format("Fis_Process was change from  %s to %s", fisProcess.name(), fixture.getFisProcess().name()));
+            if (!oldFisProcess.name().equals(fixtureDataToUpdate.getFisProcess().name())) {
+                messages.set(1, String.format("Fis_Process was change from  %s to %s", oldFisProcess.name(), fixtureDataToUpdate.getFisProcess().name()));
             }
             status = true;
             errors = Collections.emptyList();
+            mapUpdateFixture(fixtureDataToUpdate,fixture.get());
         } else {
             status = false;
             errors = Collections.singletonList("updateFixture error");
         }
 
+        if (status) {
+            FixtureHistory fixtureHistory = createFixtureHistory(fixture.get(), String.format("%s , %s", messages.get(0), messages.get(1)), ModificationReason.EDIT);
+            addFixtureHistory(fixture.get(), fixtureHistory);
+        } else {
+            String message = String.join(", ", errors);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
+        }
+
+
         return new FixtureResponse(status, messages, errors);
+
+    }
+    private void mapUpdateFixture(Fixture newFixtureData, Fixture fixtureToUpdate) {
+
+        if (newFixtureData.getName() != null) {
+            fixtureToUpdate.setName(newFixtureData.getName());
+        }
+        if (newFixtureData.getFisProcess() != null) {
+            fixtureToUpdate.setFisProcess(newFixtureData.getFisProcess());
+        }
 
     }
 
