@@ -94,8 +94,8 @@ class FixtureController {
 
     @PostMapping("/editFixture")
     public String editFixturePOST(@Valid @ModelAttribute FixtureCommand command) {
-
-        FixtureResponse fixtureResponse = service.updateFixture(command.toFixture());
+        Fixture fixture = command.toFixture();
+        FixtureResponse fixtureResponse = service.updateFixture(fixture);
         FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, String.format("%s , %s", fixtureResponse.getMessages().get(0), fixtureResponse.getMessages().get(1)), ModificationReason.EDIT);
         service.saveFixture(fixture, fixtureHistory);
         return "redirect:/fixtures";

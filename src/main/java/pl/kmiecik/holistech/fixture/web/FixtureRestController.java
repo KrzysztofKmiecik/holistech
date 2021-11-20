@@ -3,6 +3,8 @@ package pl.kmiecik.holistech.fixture.web;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +21,16 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static pl.kmiecik.holistech.fixture.application.port.FixtureService.*;
+import static pl.kmiecik.holistech.fixture.application.port.FixtureService.FixtureResponse;
 
 @RestController
 @RequestMapping("/api/fixtures")
 class FixtureRestController {
 
     private final FixtureService service;
+
+    @Value("${spring.profiles.active")
+    private String activeProfile;
 
     @Autowired
     public FixtureRestController(FixtureService service) {
@@ -40,12 +45,13 @@ class FixtureRestController {
     @GetMapping("/{id}")
     public ResponseEntity<Fixture> getFixtureById(@PathVariable Long id) {
         return service.findFixtureById(id)
-                .map(fixture -> ResponseEntity.ok(fixture))
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
 
     /**
+     * BODY
      * {
      * "name": "fixt3",
      * "fisProcess": "ICT"
@@ -77,12 +83,25 @@ class FixtureRestController {
         service.deleteFixture(id);
     }
 
+
+    /**
+     * BODY
+     * {
+     * "name": "fixt3",
+     * "fisProcess": "ICT"
+     * }
+     */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateFixture(@PathVariable Long id, @RequestBody RestFixtureCommand command) {
+    public void updateFixture(@Valid @RequestBody RestFixtureCommand command, @PathVariable Long id) {
+        Fixture fixture = command.toFixture();
         Optional<Fixture> fixtureById = service.findFixtureById(id);
         if (fixtureById.isPresent()) {
-               FixtureResponse fixtureResponse = service.updateFixture(command.toUpdateFixtureCommand());
+
+            Fixture fixtureToUpdate = fixtureById.get();
+            mapUpdateFixture(fixture, fixtureToUpdate);
+
+            FixtureResponse fixtureResponse = service.updateFixture(fixtureToUpdate);
             if (!fixtureResponse.isSuccess()) {
                 String message = String.join(", ", fixtureResponse.getErrors());
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
@@ -94,83 +113,43 @@ class FixtureRestController {
 
     }
 
-    /*
-        @PostMapping
-        public String addFixture(@Valid @RequestBody RestFixtureCommand command) {
-            Fixture fixture = command.toFixture();
-            service.setMyDefaultStrainStatus(fixture);
-            service.setMyExpiredStrainDate(fixture);
-            FixtureHistory fixtureHistory = service.getFixtureHistory(fixture, "INIT", ModificationReason.CREATE);
-            service.saveFixture(fixture, fixtureHistory);
-            retu "redirect:/fixtures";
+    private void mapUpdateFixture(Fixture newFixtureData, Fixture fixtureToUpdate) {
+
+        if (newFixtureData.getName() != null) {
+            fixtureToUpdate.setName(newFixtureData.getName());
+        }
+        if (newFixtureData.getFisProcess() != null) {
+            fixtureToUpdate.setFisProcess(newFixtureData.getFisProcess());
         }
 
-    /*
-        //***********
-        @PostMapping("/edit-fixtureButton")
-        public String editFixtureButton(@RequestParam String id) {
-            return "redirect:/editFixture/" + id;
-        }
+    }
 
-        @GetMapping("/editFixture/{id}")
-        public String editFixtureGET(Model model, @PathVariable String id) {
-            Fixture fixtureToEdit = service.findFixtureById(Long.valueOf(id)).orElse(new Fixture());
-            model.addAttribute("fixtureToEdit", fixtureToEdit);
-            return "editFixtureView";
-        }
+    /**
+     * BODY
+     * {
+     * "descriptionOfChange": "my changeDescription"
+     * }
+     */
 
-        @PostMapping("/editFixture")
-        public String editFixturePOST(@Valid @ModelAttribute FixtureCommand command) {
-
-            FisProcess fisProcess;
-            Fixture fixture = command.toFixture();
-            Optional<Fixture> fixtureById = service.findFixtureById(fixture.getId());
-            String messageName = "", messageFis = "";
-            if (fixtureById.isPresent()) {
-                Fixture fixtureOld = fixtureById.get();
-                String name = fixtureOld.getName();
-                fisProcess = fixtureOld.getFisProcess();
-                if (!name.equals(fixture.getName())) {
-                    messageName = String.format("name was change from  %s to %s", name, fixture.getName());
-                }
-                if (!fisProcess.name().equals(fixture.getFisProcess().name())) {
-                    messageFis = String.format("Fis_Process was change from  %s to %s", fisProcess.name(), fixture.getFisProcess().name());
-                }
-            }
-
-            FixtureHistory fixtureHistory = service.getFixtureHistory(fixture, String.format("%s , %s", messageName, messageFis), ModificationReason.EDIT);
-            service.saveFixture(fixture, fixtureHistory);
-            return "redirect:/fixtures";
-        }
-        //***********
-
-        @PostMapping("/setOK-fixtureButton")
-        public String setOKPost(@RequestParam String id, @ModelAttribute FixtureDto fixtureDto) {
-            Fixture fixture = service.setStrainStatus(id, Status.OK);
-            FixtureHistory fixtureHistory = service.getFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_OK);
-            service.saveFixture(fixture, fixtureHistory);
-            service.sendEmail(fixture);
-            return "redirect:/fixtures";
-        }
+    @PutMapping("/{id}/ok")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void setOKFixture(@Valid @RequestBody FixtureDto fixtureDto, @PathVariable String id) {
+        Fixture fixture = service.setStrainStatus(id, Status.OK);
+        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_OK);
+        service.saveFixture(fixture, fixtureHistory);
+        if (activeProfile.equals("prod")) service.sendEmail(fixture);
+    }
 
 
-        //***********
-        @PostMapping("/setNOK-fixtureButton")
-        public String setNOKPost(@RequestParam String id, @ModelAttribute FixtureDto fixtureDto) {
-            Fixture fixture = service.setStrainStatus(id, Status.NOK);
-            FixtureHistory fixtureHistory = service.getFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_NOK);
-            service.saveFixture(fixture, fixtureHistory);
-            service.sendEmail(fixture);
-            return "redirect:/fixtures";
-        }
+    @PutMapping("/{id}/nok")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void setNOKFixture(@Valid @RequestBody FixtureDto fixtureDto, @PathVariable String id) {
+        Fixture fixture = service.setStrainStatus(id, Status.NOK);
+        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_NOK);
+        service.saveFixture(fixture, fixtureHistory);
+        if (activeProfile.equals("prod")) service.sendEmail(fixture);
+    }
 
-        //***********
-        @PostMapping("/delete-fixtureButton")
-        public String deleteFixture(@RequestParam String id) {
-            service.deleteFixture(Long.valueOf(id));
-            return "redirect:/fixtures";
-        }
-    */
     @Data
     @Builder
     private static class RestFixtureCommand {
@@ -188,12 +167,7 @@ class FixtureRestController {
             return new Fixture(this.getId(), this.getName(), this.getFisProcess(), this.getStatusStrain(), this.getExpiredDateStrain(), this.getFixtureHistories());
         }
 
-        CreateFixtureCommand toCreateFixtureCommand() {
-            return new CreateFixtureCommand(id, name, fisProcess, statusStrain, expiredDateStrain, fixtureHistories);
-        }
-        UpdateFixtureCommand toUpdateFixtureCommand() {
-            return new UpdateFixtureCommand(id, name, fisProcess, statusStrain, expiredDateStrain, fixtureHistories);
-        }
     }
+
 
 }

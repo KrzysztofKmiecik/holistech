@@ -1,15 +1,12 @@
 package pl.kmiecik.holistech.fixture.application.port;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Value;
+import org.springframework.context.annotation.Profile;
 import pl.kmiecik.holistech.fixture.domain.*;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +31,7 @@ public interface FixtureService {
 
     Optional<Fixture> findFixtureById(Long valueOf);
 
-    FixtureResponse updateFixture(UpdateFixtureCommand command);
+    FixtureResponse updateFixture(Fixture fixture);
 
     @Value
     class CreateFixtureCommand {
