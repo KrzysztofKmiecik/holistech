@@ -17,8 +17,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static pl.kmiecik.holistech.fixture.application.port.FixtureService.*;
-
 @Controller
 class FixtureController {
 
@@ -64,7 +62,6 @@ class FixtureController {
 
     @PostMapping("/add-fixtureButton")
     public String addFixtureButton() {
-        //noinspection SpringMVCViewInspection
         return "redirect:/addFixture";
     }
 
@@ -72,10 +69,7 @@ class FixtureController {
     @PostMapping("/addFixture")
     public String addFixturePOST(@Valid @ModelAttribute FixtureCommand command) {
         Fixture fixture = command.toFixture();
-        service.setMyDefaultStrainStatus(fixture);
-        service.setMyExpiredStrainDate(fixture);
-        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, "INIT", ModificationReason.CREATE);
-        service.saveFixture(fixture, fixtureHistory);
+        service.addFixture(fixture);
         return "redirect:/fixtures";
     }
 
@@ -95,9 +89,7 @@ class FixtureController {
     @PostMapping("/editFixture")
     public String editFixturePOST(@Valid @ModelAttribute FixtureCommand command) {
         Fixture fixture = command.toFixture();
-        FixtureResponse fixtureResponse = service.updateFixture(fixture);
-        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, String.format("%s , %s", fixtureResponse.getMessages().get(0), fixtureResponse.getMessages().get(1)), ModificationReason.EDIT);
-        service.saveFixture(fixture, fixtureHistory);
+        service.updateFixture(fixture.getId(), fixture);
         return "redirect:/fixtures";
     }
 
@@ -108,7 +100,7 @@ class FixtureController {
     public String setOKPost(@RequestParam String id, @ModelAttribute FixtureDto fixtureDto) {
         Fixture fixture = service.setStrainStatus(id, Status.OK);
         FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_OK);
-        service.saveFixture(fixture, fixtureHistory);
+        service.addFixtureHistory(fixture, fixtureHistory);
         service.sendEmail(fixture);
         return "redirect:/fixtures";
     }
@@ -119,7 +111,7 @@ class FixtureController {
     public String setNOKPost(@RequestParam String id, @ModelAttribute FixtureDto fixtureDto) {
         Fixture fixture = service.setStrainStatus(id, Status.NOK);
         FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_NOK);
-        service.saveFixture(fixture, fixtureHistory);
+        service.addFixtureHistory(fixture, fixtureHistory);
         service.sendEmail(fixture);
         return "redirect:/fixtures";
     }
@@ -134,7 +126,6 @@ class FixtureController {
     @Data
     @Builder
     private static class FixtureCommand {
-
         private Long id;
         @NotBlank
         private String name;

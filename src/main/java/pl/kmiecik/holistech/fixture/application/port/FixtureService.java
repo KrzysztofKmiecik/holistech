@@ -15,7 +15,9 @@ public interface FixtureService {
 
     List<Fixture> findAllFixtures();
 
-    void saveFixture(Fixture fixture, FixtureHistory fixtureHistory);
+    void addFixture(Fixture fixture);
+
+    void addFixtureHistory(Fixture fixture, FixtureHistory fixtureHistory);
 
     Fixture setStrainStatus(String id, Status ok);
 
@@ -25,13 +27,14 @@ public interface FixtureService {
 
     void deleteFixture(Long id);
 
+    FixtureResponse updateFixture(Long id, Fixture fixture);
+
     void setMyDefaultStrainStatus(Fixture fixture);
 
     void setMyExpiredStrainDate(Fixture fixture);
 
     Optional<Fixture> findFixtureById(Long valueOf);
 
-    FixtureResponse updateFixture(Fixture fixture);
 
     @Value
     class CreateFixtureCommand {
