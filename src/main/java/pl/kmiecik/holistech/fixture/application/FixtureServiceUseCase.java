@@ -3,6 +3,7 @@ package pl.kmiecik.holistech.fixture.application;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,9 @@ class FixtureServiceUseCase implements FixtureService {
     private final CustomProperties customProperties;
     private String[] emailToArray;
 
+    @Value("${spring.profiles.active")
+    private String activeProfile;
+
     @Override
     public List<Fixture> findAllFixtures() {
         return repository.findAll();
@@ -53,7 +57,7 @@ class FixtureServiceUseCase implements FixtureService {
         Optional<Fixture> myFixture = repository.findById(Long.valueOf(id));
         if (myFixture.isPresent()) {
             myFixture.get().setStatusStrain(status);
-            fisService.sendFixtureStatusToFis(myFixture.get());
+            if (activeProfile.equals("dev")) fisService.sendFixtureStatusToFis(myFixture.get());
             return myFixture.get();
         } else {
             return new Fixture();
@@ -104,13 +108,13 @@ class FixtureServiceUseCase implements FixtureService {
     }
 
     @Override
-    public FixtureResponse updateFixture(Long id,UpdateFixtureCommand command) {
-        Fixture fixture= command.;
+    public FixtureResponse updateFixture(Fixture fixture) {
+
         FisProcess fisProcess;
         boolean status;
         List<String> messages = new ArrayList<>();
         List<String> errors;
-        Optional<Fixture> fixtureById = this.findFixtureById(id);
+        Optional<Fixture> fixtureById = this.findFixtureById(fixture.getId());
         String messageName = "", messageFis = "";
         messages.add(messageName);
         messages.add(messageFis);
@@ -127,9 +131,9 @@ class FixtureServiceUseCase implements FixtureService {
             }
             status = true;
             errors = Collections.emptyList();
-        }else{
-            status=false;
-            errors=Collections.singletonList("updateFixture error");
+        } else {
+            status = false;
+            errors = Collections.singletonList("updateFixture error");
         }
 
         return new FixtureResponse(status, messages, errors);

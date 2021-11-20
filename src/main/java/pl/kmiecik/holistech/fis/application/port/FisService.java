@@ -1,5 +1,6 @@
 package pl.kmiecik.holistech.fis.application.port;
 
+import org.springframework.context.annotation.Profile;
 import pl.kmiecik.holistech.fixture.domain.Fixture;
 
 public interface FisService {
