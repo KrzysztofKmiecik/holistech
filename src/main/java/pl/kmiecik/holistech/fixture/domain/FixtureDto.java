@@ -25,7 +25,7 @@ public class FixtureDto {
     private LocalDateTime modificationDateTime;
     private ModificationReason modificationReason;
     @NotEmpty
-    @Pattern(regexp = "[a-zA-Z0-9]*:[a-zA-Z0-9]*")
+    @Pattern(regexp = "[a-zA-Z0-9]+[:][a-zA-Z0-9]+", message = "Only letters and numbers are allowed in 'owner:description' pattern")
     private String descriptionOfChange;
 
 }

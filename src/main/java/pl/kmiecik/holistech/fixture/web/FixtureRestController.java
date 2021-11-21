@@ -25,7 +25,7 @@ class FixtureRestController {
 
     private final FixtureService service;
 
-    @Value("${spring.profiles.active")
+    @Value("${spring.profiles.active}")
     private String activeProfile;
 
     @Autowired
@@ -122,8 +122,8 @@ class FixtureRestController {
     @Builder
     private static class RestFixtureCommand {
 
-        @NotBlank
-        @Pattern(regexp = "[a-zA-Z0-9]*")
+        @NotEmpty
+        @Pattern(regexp = "[a-zA-Z0-9]*",message = "Only letters and numbers are allowed")
         private String name;
         @NotNull
         private FisProcess fisProcess;
@@ -140,7 +140,7 @@ class FixtureRestController {
     @Data
     private static class DescriptionCommand {
         @NotEmpty
-        @Pattern(regexp = "[a-zA-Z0-9]*:[a-zA-Z0-9]*")
+        @Pattern(regexp = "[a-zA-Z0-9]+[:][a-zA-Z0-9]+", message = "Only letters and numbers are allowed in 'owner:description' pattern")
         private String descriptionOfChange;
 
     }

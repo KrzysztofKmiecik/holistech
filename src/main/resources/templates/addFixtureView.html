@@ -44,7 +44,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="FixtureName" th:text="#{add.name}">Select Fixture Name</label>
-                            <input type="text" id="FixtureName" th:field="*{name}" class="form-control">
+                            <input style='width:100%' type="text" id="FixtureName" th:field="*{name}" class="form-control" th:placeholder="#{edit.placeholder}" pattern="[a-zA-Z0-9]+"  autocomplete="off" required>
                         </div>
                     </div>
                     <div class="col-md-6">

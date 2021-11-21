@@ -129,7 +129,7 @@ class FixtureController {
     private static class FixtureCommand {
         private Long id;
         @NotBlank
-        @Pattern(regexp = "[a-zA-Z0-9]*")
+        @Pattern(regexp = "[a-zA-Z0-9]+",message = "Only letters and numbers are allowed")
         private String name;
         @NotNull
         private FisProcess fisProcess;
