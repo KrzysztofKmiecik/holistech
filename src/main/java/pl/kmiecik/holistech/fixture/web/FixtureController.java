@@ -97,7 +97,7 @@ class FixtureController {
     //***********
 
     @PostMapping("/setOK-fixtureButton")
-    public String setOKPost(@RequestParam String id, @ModelAttribute FixtureDto fixtureDto) {
+    public String setOKPost(@RequestParam String id, @Valid @ModelAttribute FixtureDto fixtureDto) {
         Fixture fixture = service.setStrainStatus(id, Status.OK);
         FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_OK);
         service.addFixtureHistory(fixture, fixtureHistory);
@@ -108,7 +108,7 @@ class FixtureController {
 
     //***********
     @PostMapping("/setNOK-fixtureButton")
-    public String setNOKPost(@RequestParam String id, @ModelAttribute FixtureDto fixtureDto) {
+    public String setNOKPost(@RequestParam String id, @Valid @ModelAttribute FixtureDto fixtureDto) {
         Fixture fixture = service.setStrainStatus(id, Status.NOK);
         FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_NOK);
         service.addFixtureHistory(fixture, fixtureHistory);

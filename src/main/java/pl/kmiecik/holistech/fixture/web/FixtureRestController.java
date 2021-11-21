@@ -13,7 +13,9 @@ import pl.kmiecik.holistech.fixture.domain.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.net.URI;
 import java.util.List;
 
@@ -99,9 +101,9 @@ class FixtureRestController {
 
     @PutMapping("/{id}/ok")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void setOKFixture(@Valid @RequestBody FixtureDto fixtureDto, @PathVariable String id) {
+    public void setOKFixture(@Valid @RequestBody DescriptionCommand command, @PathVariable String id) {
         Fixture fixture = service.setStrainStatus(id, Status.OK);
-        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_OK);
+        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, command.getDescriptionOfChange(), ModificationReason.SET_OK);
         service.addFixtureHistory(fixture, fixtureHistory);
         if (activeProfile.equals("prod")) service.sendEmail(fixture);
     }
@@ -109,9 +111,9 @@ class FixtureRestController {
 
     @PutMapping("/{id}/nok")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void setNOKFixture(@Valid @RequestBody FixtureDto fixtureDto, @PathVariable String id) {
+    public void setNOKFixture(@Valid @RequestBody DescriptionCommand command, @PathVariable String id) {
         Fixture fixture = service.setStrainStatus(id, Status.NOK);
-        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, fixtureDto.getDescriptionOfChange(), ModificationReason.SET_NOK);
+        FixtureHistory fixtureHistory = service.createFixtureHistory(fixture, command.getDescriptionOfChange(), ModificationReason.SET_NOK);
         service.addFixtureHistory(fixture, fixtureHistory);
         if (activeProfile.equals("prod")) service.sendEmail(fixture);
     }
@@ -134,4 +136,11 @@ class FixtureRestController {
 
     }
 
+    @Data
+    private static class DescriptionCommand {
+        @NotEmpty
+        @Pattern(regexp = "[a-zA-Z0-9]*:[a-zA-Z0-9]*")
+        private String descriptionOfChange;
+
+    }
 }
