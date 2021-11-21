@@ -91,19 +91,19 @@
                     <td>
                         <div sec:authorize="hasRole('ROLE_QUALITY')">
                             <form th:action="@{setOK-fixtureButton}" th:object="${newFixture}" method="post">
-                                <input name="id" type="hidden" th:value="${fixture.getId()}">
+                                <input name="id" type="hidden" th:value="${fixture.getId()}" >
                                 <button name="action" type="submit" th:text="#{button.ok}" class="btn btn-primary btn-block">SetOK</button>
-                                <label for="setOKdescr"></label><input style='width:100%' id="setOKdescr" type="text" th:field="*{descriptionOfChange}">
+                                <label for="setOKdescr"></label><input style='width:100%' id="setOKdescr" type="text" th:field="*{descriptionOfChange}" th:placeholder="#{fixture.placeholder}" pattern="[a-zA-Z0-9]+[:][a-zA-Z0-9]+" autocomplete="off" required>
                             </form>
                         </div>
                     </td>
 
                     <td>
                         <form th:action="@{setNOK-fixtureButton}" th:object="${newFixture}" method="post">
-                            <input name="id" type="hidden" th:value="${fixture.getId()}">
+                            <input name="id" type="hidden" th:value="${fixture.getId()}" >
 
                             <button name="action" type="submit" th:text="#{button.nok}" class="btn btn-primary btn-block">SetNOK</button>
-                            <label for="setNokdescr"></label><input style='width:100%' id="setNokdescr" type="text" th:field="*{descriptionOfChange}">
+                            <label for="setNokdescr"></label><input style='width:100%' id="setNokdescr" type="text" th:field="*{descriptionOfChange}" th:placeholder="#{fixture.placeholder}" pattern="[a-zA-Z0-9]+[:]{1}[a-zA-Z0-9]+" autocomplete="off" required >
 
                         </form>
                     </td>

@@ -40,7 +40,7 @@ class FixtureServiceUseCase implements FixtureService {
     private final CustomProperties customProperties;
     private String[] emailToArray;
 
-    @Value("${spring.profiles.active")
+    @Value("${spring.profiles.active}")
     private String activeProfile;
 
     @Override
@@ -58,6 +58,8 @@ class FixtureServiceUseCase implements FixtureService {
 
     @Override
     public void addFixtureHistory(final Fixture fixture, final FixtureHistory fixtureHistory) {
+        fixture.setName(fixture.getName().toUpperCase());
+        fixtureHistory.setDescriptionOfChange(fixtureHistory.getDescriptionOfChange().toUpperCase());
         repository.save(fixture);
         historyRepository.save(fixtureHistory);
     }
@@ -67,7 +69,7 @@ class FixtureServiceUseCase implements FixtureService {
         Optional<Fixture> myFixture = repository.findById(Long.valueOf(id));
         if (myFixture.isPresent()) {
             myFixture.get().setStatusStrain(status);
-            if (activeProfile.equals("dev")) fisService.sendFixtureStatusToFis(myFixture.get());
+            if (activeProfile.equals("prod")) fisService.sendFixtureStatusToFis(myFixture.get());
             return myFixture.get();
         } else {
             return new Fixture();
@@ -92,7 +94,7 @@ class FixtureServiceUseCase implements FixtureService {
         FixtureHistory fixtureHistory = new FixtureHistory();
         fixtureHistory.setFixture(fixture);
         fixtureHistory.setModificationDateTime(LocalDateTime.now());
-        fixtureHistory.setDescriptionOfChange(descriptionOfChange);
+        fixtureHistory.setDescriptionOfChange(descriptionOfChange.toUpperCase());
         fixtureHistory.setModificationReason(modificationReason);
         fixtureHistory.setChangeOwner(getSimpleGrantedAuthoritiesString());
         return fixtureHistory;
@@ -132,7 +134,7 @@ class FixtureServiceUseCase implements FixtureService {
             String oldName = fixture.get().getName();
             oldFisProcess = fixture.get().getFisProcess();
             if (!oldName.equals(fixtureDataToUpdate.getName())) {
-                messages.set(0, String.format("name was change from  %s to %s", oldName, fixtureDataToUpdate.getName()));
+                messages.set(0, String.format("Name was change from  %s to %s", oldName, fixtureDataToUpdate.getName()));
             }
             if (!oldFisProcess.name().equals(fixtureDataToUpdate.getFisProcess().name())) {
                 messages.set(1, String.format("Fis_Process was change from  %s to %s", oldFisProcess.name(), fixtureDataToUpdate.getFisProcess().name()));
