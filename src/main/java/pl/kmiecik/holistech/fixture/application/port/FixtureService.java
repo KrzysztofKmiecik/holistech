@@ -3,7 +3,6 @@ package pl.kmiecik.holistech.fixture.application.port;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Value;
-import org.springframework.context.annotation.Profile;
 import pl.kmiecik.holistech.fixture.domain.*;
 
 import java.time.LocalDate;

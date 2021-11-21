@@ -2,7 +2,6 @@ package pl.kmiecik.holistech.fis.application;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import pl.kmiecik.holistech.fis.application.port.IpClientService;
 
@@ -38,7 +37,7 @@ class IpClientUseCase implements IpClientService {
             ipCommunicationResponse.setConnected(false);
             ipCommunicationResponse.setResponseMessage("Error Connection");
             ipCommunicationResponse.setErrors(List.of(e.getMessage()));
-            log.error("Network "+ e.getMessage());
+            log.error("Network " + e.getMessage());
             return ipCommunicationResponse;
         }
     }

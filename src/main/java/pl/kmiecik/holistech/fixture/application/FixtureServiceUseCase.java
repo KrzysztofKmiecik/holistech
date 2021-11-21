@@ -121,19 +121,14 @@ class FixtureServiceUseCase implements FixtureService {
     public FixtureResponse updateFixture(Long id, Fixture fixtureDataToUpdate) {
 
         FisProcess oldFisProcess;
-        boolean status;
         List<String> messages = new ArrayList<>();
         List<String> errors;
-
-
         Optional<Fixture> fixture= this.findFixtureById(id);
-
         String messageName = "", messageFis = "";
         messages.add(messageName);
         messages.add(messageFis);
 
         if (fixture.isPresent()) {
-
             String oldName = fixture.get().getName();
             oldFisProcess = fixture.get().getFisProcess();
             if (!oldName.equals(fixtureDataToUpdate.getName())) {
@@ -142,26 +137,21 @@ class FixtureServiceUseCase implements FixtureService {
             if (!oldFisProcess.name().equals(fixtureDataToUpdate.getFisProcess().name())) {
                 messages.set(1, String.format("Fis_Process was change from  %s to %s", oldFisProcess.name(), fixtureDataToUpdate.getFisProcess().name()));
             }
-            status = true;
+
             errors = Collections.emptyList();
             mapUpdateFixture(fixtureDataToUpdate,fixture.get());
-        } else {
-            status = false;
-            errors = Collections.singletonList("updateFixture error");
-        }
-
-        if (status) {
             FixtureHistory fixtureHistory = createFixtureHistory(fixture.get(), String.format("%s , %s", messages.get(0), messages.get(1)), ModificationReason.EDIT);
             addFixtureHistory(fixture.get(), fixtureHistory);
+            return new FixtureResponse(true, messages, errors);
         } else {
+            errors = Collections.singletonList("updateFixture error");
             String message = String.join(", ", errors);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);
         }
 
-
-        return new FixtureResponse(status, messages, errors);
-
     }
+
+
     private void mapUpdateFixture(Fixture newFixtureData, Fixture fixtureToUpdate) {
 
         if (newFixtureData.getName() != null) {
