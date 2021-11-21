@@ -123,6 +123,7 @@ class FixtureRestController {
     private static class RestFixtureCommand {
 
         @NotBlank
+        @Pattern(regexp = "[a-zA-Z0-9]*")
         private String name;
         @NotNull
         private FisProcess fisProcess;
