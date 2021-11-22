@@ -1,8 +1,9 @@
 # Holistech
 
-There is a business need to have systemic possibility to block fixture on production floor
-
 ## Bussines requirements
+There is a business need to have systemic possibility to block fixture on production floor.
+
+## Project requirements
 - [x] as a user with role TESTER/QUALITY/USER  I would like to log in to be able to block fixture in FIS
 - [x] as a user with role TESTER/QUALITY/USER I would like to have recorded fixture status change or name  in history log and email
 - [x] as a user with role TESTER/QUALITY/USER  I would like to see history log
