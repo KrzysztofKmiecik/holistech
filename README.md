@@ -9,7 +9,7 @@ There is a business need to have systemic possibility to block fixture on produc
 - [x] as a user with role TESTER/QUALITY/USER  I would like to see history log
 - [x] as a user with role TESTER/QUALITY/USER  I would like to see fixture status
 - [x] as a user with role TESTER/QUALITY/USER I would like to log in to be able to see status of fixture
-- [x] as a user with role TESTER/QUALITY/USER I would like to have possibilities to choose languages Polski|English|Deutsch|Rусский
+- [x] as a user with role TESTER/QUALITY/USER I would like to have possibilities to choose languages Polski|English|Deutsch|Pyсский
 - [x] as a user with role TESTER/QUALITY/USER I would like to use API for this
 - [x] as a user with role TESTER/QUALITY/USER I would like to have 
 - [x] as a user with role TESTER  I would like to login to be able as the only one to create new fixture (name and Type(ICT,SMT_MOL))
