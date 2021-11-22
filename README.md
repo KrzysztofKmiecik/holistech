@@ -30,7 +30,7 @@ There is a business need to have systemic possibility to block fixture on produc
 - [x] FIS
 - [x] email
 - [x] Locale
-- [x] Profiles
+- [x] Profiles (dev(H2),prod)
 - [x] Inputs validation (frontend/backend)
 - [x] Suggestion for inputs (SetOK,SetNOK,FixtureName)
 - [x] Patterns for inputs (SetOK,SetNOK,FixtureName) 
