@@ -38,7 +38,7 @@ There is a business need to have systemic possibility to block fixture on produc
 - [ ] Tests -> ongoing
 - [X] REST API with Swagger UI
 - [x] log history
-- [ ] metrics Grafana
+- [ ] healthChecks metrics, prometheus, Grafana
 - [ ] Docker
 - [ ] Holistech email -> canceled due to the IT Security  
 - [ ] Holistech API -> waiting for IT feedback
@@ -47,3 +47,8 @@ There is a business need to have systemic possibility to block fixture on produc
 - SpringBoot (Spring Data, Spring Security)
 - Thymeleaf with Bootstrap
 - Swagger UI
+
+## Info
+- docker pull prom/prometheus, docker run -p 9090:9090 prom/prometheus, localhost:9090, 
+- docker pull grafana/grafana, docker run -p 3000:3000 grafana/grafana  haslo:admin pass:admin, add datasource prometheus,go inside prometheus container,inside contener ifconfig ->eth0 172.17.0.2:9090
+- 

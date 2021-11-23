@@ -11,7 +11,7 @@
     </parent>
     <groupId>pl.kmiecik</groupId>
     <artifactId>holistech</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <name>holistech</name>
     <description>holistech</description>
     <properties>
@@ -21,6 +21,7 @@
         <assertj.core.version>3.21.0</assertj.core.version>
         <mockito.core.version>4.0.0</mockito.core.version>
         <swagger.version>2.9.2</swagger.version>
+        <prometheus.version>1.8.0</prometheus.version>
     </properties>
     <dependencies>
         <dependency>
@@ -132,6 +133,17 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
+        </dependency>
+        <!--localhost:8080/actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <version>${prometheus.version}</version>
         </dependency>
 
     </dependencies>
