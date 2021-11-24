@@ -11,11 +11,15 @@
     </parent>
     <groupId>pl.kmiecik</groupId>
     <artifactId>holistech</artifactId>
+    <packaging>jar</packaging>
     <version>1.0</version>
     <name>holistech</name>
     <description>holistech</description>
     <properties>
+        <start-class>pl.kmiecik.holistech.HolistechApplication</start-class>
         <java.version>11</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <webjars.bootstrap.version>4.3.1</webjars.bootstrap.version>
         <webjars.font.version>5.11.2</webjars.font.version>
         <assertj.core.version>3.21.0</assertj.core.version>
@@ -145,16 +149,30 @@
             <artifactId>micrometer-registry-prometheus</artifactId>
             <version>${prometheus.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>1.1</version>
+        </dependency>
     </dependencies>
 
+    <!-- mvn clean package spring-boot::repackage -->
+    <!--java -jar holistech.jar -->
     <build>
+        <finalName>${artifactId}</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <configuration>
+                        <fork>true</fork>
+                        <mainClass>${start-class}</mainClass>
                         <excludes>
                             <exclude>
                                 <groupId>org.projectlombok</groupId>
@@ -162,6 +180,13 @@
                             </exclude>
                         </excludes>
                     </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>

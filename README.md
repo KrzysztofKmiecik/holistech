@@ -49,6 +49,13 @@ There is a business need to have systemic possibility to block fixture on produc
 - Swagger UI
 
 ## Info
-- docker pull prom/prometheus, docker run -p 9090:9090 prom/prometheus, localhost:9090, 
-- docker pull grafana/grafana, docker run -p 3000:3000 grafana/grafana  haslo:admin pass:admin, add datasource prometheus,go inside prometheus container,inside contener ifconfig ->eth0 172.17.0.2:9090
-- 
+### New jar creation
+- mvn clean package spring-boot::repackage 
+- java -jar holistech.jar
+### docker
+- docker-compose -f "/Volumes/RAM Disk/holistech/docker-compose.yml" up -d
+
+### 
+For test
+- old -> docker pull prom/prometheus, docker run -p 9090:9090 prom/prometheus, localhost:9090,
+- old -> docker pull grafana/grafana, docker run -p 3000:3000 grafana/grafana  haslo:admin pass:admin, add datasource prometheus,go inside prometheus container,inside contener ifconfig ->eth0 172.17.0.2:9090
