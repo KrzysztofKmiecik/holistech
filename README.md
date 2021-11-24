@@ -39,7 +39,7 @@ There is a business need to have systemic possibility to block fixture on produc
 - [X] REST API with Swagger UI
 - [x] log history
 - [ ] healthChecks metrics, prometheus, Grafana
-- [ ] Docker
+- [x] Docker
 - [ ] Holistech email -> canceled due to the IT Security  
 - [ ] Holistech API -> waiting for IT feedback
 
