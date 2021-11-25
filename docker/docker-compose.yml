@@ -9,7 +9,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: '%'
     volumes:
-      - ./sql:/docker-entrypoint-initdb.d
+      -  docker-mysql-data:/docker-entrypoint-initdb.d
     ports:
       - "6033:3306"
     healthcheck:
@@ -17,9 +17,12 @@ services:
       interval: 2s
       timeout: 20s
       retries: 1
-  eolt:
+
+  holistech:
     restart: on-failure
-    build: ./
+    build:
+      context: .
+      dockerfile: Dockerfile
     expose:
       - "8090"
     ports:
@@ -28,3 +31,17 @@ services:
       WAIT_HOST: mysql:3306
     depends_on:
       - docker-mysql
+
+  prometheus:
+    image: prom/prometheus:v2.26.1
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus-data:/prometheus
+      - ./prometheus:/etc/prometheus
+    command: --config.file=/etc/prometheus/prometheus.yml
+
+
+volumes:
+  docker-mysql-data:
+  prometheus-data:
