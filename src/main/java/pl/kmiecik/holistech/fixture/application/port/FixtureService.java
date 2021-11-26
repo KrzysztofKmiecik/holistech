@@ -1,8 +1,7 @@
 package pl.kmiecik.holistech.fixture.application.port;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Value;
+import lombok.With;
 import pl.kmiecik.holistech.fixture.domain.*;
 
 import java.time.LocalDate;
@@ -36,6 +35,7 @@ public interface FixtureService {
 
 
     @Value
+    @With
     class CreateFixtureCommand {
         Long id;
         String name;
@@ -51,8 +51,7 @@ public interface FixtureService {
     }
 
     @Value
-    @Builder
-    @AllArgsConstructor
+    @With
     class UpdateFixtureCommand {
         Long id;
         String name;
@@ -83,6 +82,7 @@ public interface FixtureService {
     }
 
     @Value
+    @With
     class FixtureResponse {
 
         boolean success;

@@ -1,8 +1,6 @@
 package pl.kmiecik.holistech.fixture.application;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,10 +24,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-@RequiredArgsConstructor
 @Service
-@Setter
-@Getter
+@RequiredArgsConstructor
 @Transactional
 class FixtureServiceUseCase implements FixtureService {
 
@@ -125,7 +121,7 @@ class FixtureServiceUseCase implements FixtureService {
         FisProcess oldFisProcess;
         List<String> messages = new ArrayList<>();
         List<String> errors;
-        Optional<Fixture> fixture= this.findFixtureById(id);
+        Optional<Fixture> fixture = this.findFixtureById(id);
         String messageName = "", messageFis = "";
         messages.add(messageName);
         messages.add(messageFis);
@@ -141,7 +137,7 @@ class FixtureServiceUseCase implements FixtureService {
             }
 
             errors = Collections.emptyList();
-            mapUpdateFixture(fixtureDataToUpdate,fixture.get());
+            mapUpdateFixture(fixtureDataToUpdate, fixture.get());
             FixtureHistory fixtureHistory = createFixtureHistory(fixture.get(), String.format("%s , %s", messages.get(0), messages.get(1)), ModificationReason.EDIT);
             addFixtureHistory(fixture.get(), fixtureHistory);
             return new FixtureResponse(true, messages, errors);

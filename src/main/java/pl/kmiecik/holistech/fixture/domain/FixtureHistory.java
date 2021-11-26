@@ -9,12 +9,11 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-@Entity
 @Table(name = "fixture_histories")
 public class FixtureHistory {
     @Id

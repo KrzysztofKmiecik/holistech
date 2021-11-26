@@ -10,12 +10,11 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-@Entity
 @Table(name = "fixtures")
 public class Fixture {
 
