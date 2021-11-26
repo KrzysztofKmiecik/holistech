@@ -1,0 +1,55 @@
+version: '3.1'
+services:
+  docker-mysql:
+    restart: always
+    container_name: fixture_db
+    image: mysql
+    environment:
+      MYSQL_DATABASE: fixture_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      -  docker-mysql-data:/docker-entrypoint-initdb.d
+    ports:
+      - "6033:3306"
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root--execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 20s
+      retries: 1
+
+  holistech:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - "8090"
+    ports:
+      - "8090:8080"
+    environment:
+      WAIT_HOST: mysql:3306
+    depends_on:
+      - docker-mysql
+
+  prometheus:
+    image: prom/prometheus:v2.26.1
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus-data:/prometheus
+      - ./prometheus:/etc/prometheus
+    command: --config.file=/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:7.5.6
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+volumes:
+  docker-mysql-data:
+  prometheus-data:
+  grafana-data:
