@@ -29,7 +29,7 @@ There is a business need to have systemic possibility to block fixture on produc
 ### OpenPoints
 - [x] FIS
 - [x] email
-- [x] Locale
+- [x] Locale i18n
 - [x] Profiles (dev(H2),prod)
 - [x] Inputs validation (frontend/backend)
 - [x] Suggestion for inputs (SetOK,SetNOK,FixtureName)
@@ -47,6 +47,7 @@ There is a business need to have systemic possibility to block fixture on produc
 - SpringBoot (Spring Data, Spring Security)
 - Thymeleaf with Bootstrap
 - Swagger UI
+- Grafana
 
 ## Info
 ### new jar creation
