@@ -2,6 +2,7 @@
 
 ## Bussines requirements
 There is a business need to have systemic possibility to block fixture on production floor.
+![](https://www.comwaretech.com/wp-content/uploads/2020/06/i5000.jpg)
 
 ## Project requirements
 - [x] as a user with role TESTER/QUALITY/USER  I would like to log in to be able to block fixture in FIS
