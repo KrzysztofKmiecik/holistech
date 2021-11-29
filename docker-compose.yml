@@ -2,16 +2,16 @@ version: '3.1'
 services:
   docker-mysql:
     restart: always
-    container_name: fixture_db
+    container_name: fixturedb
     image: mysql
     environment:
-      MYSQL_DATABASE: fixture_db
+      MYSQL_DATABASE: fixturedb
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: '%'
     volumes:
       -  docker-mysql-data:/docker-entrypoint-initdb.d
     ports:
-      - "6033:3306"
+      - "6034:3306"
     healthcheck:
       test: "/usr/bin/mysql --user=root --password=root--execute \"SHOW DATABASES;\""
       interval: 2s
