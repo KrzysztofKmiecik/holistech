@@ -26,6 +26,7 @@ There is a business need to have systemic possibility to block fixture on produc
 ![](src/main/resources/static/photos/screenshots/Holistech_USER.jpg)
 ![](src/main/resources/static/photos/screenshots/Holistech_historyLog.png)
 ![](src/main/resources/static/photos/screenshots/Holistech_API.jpg)
+![](src/main/resources/static/photos/screenshots/Grafana.png)
 
 ### OpenPoints
 - [x] FIS
@@ -49,6 +50,7 @@ There is a business need to have systemic possibility to block fixture on produc
 - Thymeleaf with Bootstrap
 - Swagger UI
 - Grafana
+- Docker-Compose
 
 ## Info
 ### new jar creation
