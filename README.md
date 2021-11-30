@@ -17,7 +17,7 @@ There is a business need to have systemic possibility to block fixture on produc
 - [x] as a user with role QUALITY I would like to login to be able as the only one to unlock fixture in FIS
 
 
-## Solution
+## Solution 
 
 ![](src/main/resources/static/photos/Holistech.jpg)
 ![](src/main/resources/static/photos/screenshots/Holistech_Login.jpg)
@@ -28,6 +28,14 @@ There is a business need to have systemic possibility to block fixture on produc
 ![](src/main/resources/static/photos/screenshots/Holistech_API.jpg)
 ![](src/main/resources/static/photos/screenshots/Grafana.png)
 
+### FIS response
+- DEBUG **** [120697] 11/30/2021 08:47:21 **** ei_svr.svr (ei_machine431) Launching application (/fis/mantis/custom/apps/local/EI/fixture_interface.tcl)
+- DEBUG ( 0) [20697] 11/30/2021 08:47:21 Starting Application
+- DEBUG ( 0) [20697] 11/30/2021 08:47:21 Client IP: 10.235.244.57
+- DEBUG ( 0) [20697] 11/30/2021 08:47:21 Incoming Message: <ADDFIXTURE|process=ICT|fixture=1954|status=PASS>
+- DEBUG ( 0) [20697] 11/30/2021 08:47:21 Sending reply: PASS
+- DEBUG ( 0) [20697] 11/30/2021 08:47:21 Done Processing Data
+- DEBUG ( 0) [20697] 11/30/2021 08:47:21 Ending Application
 ### OpenPoints
 - [x] FIS
 - [x] email
