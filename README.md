@@ -59,11 +59,11 @@ There is a business need to have systemic possibility to block fixture on produc
 ### docker
 - docker-compose -f "/Volumes/RAM Disk/holistech/docker-compose.yml" up -d
 ### links
-- localhost:8090/fixtures ->app
-- http://eoltserverprod:8090/swagger-ui.html
-- localhost:8090/actuator ->metrics
-- localhost:9090 -> prometheus
-- localhost:3000 -> grafana (login:admin pass:admin) ; url http://prometheus:9090; import jvm Micrometer ID 4701
+- app    -> http://eoltserverprod:8090/fixtures
+- API    -> http://eoltserverprod:8090/swagger-ui.html
+- metrics-> http://eoltserverprod:8090/actuator
+- prometheus -> http://eoltserverprod:9090
+- http://eoltserverprod:3000 -> grafana (login:admin pass:admin) ; url http://prometheus:9090; import jvm Micrometer ID 4701
 ### metrics
 - http_server_requests_seconds_count
 - http_server_requests_seconds_sum
